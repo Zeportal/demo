@@ -1,0 +1,11 @@
+version: '3.7'
+
+services:
+  db_test:
+    image: postgres:15.3-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      USER: "${USER}"
+      PASSWORD: "${PASSWORD}"
+      DB: db_test
