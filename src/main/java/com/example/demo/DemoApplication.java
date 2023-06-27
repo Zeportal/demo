@@ -19,8 +19,6 @@ public class DemoApplication {
 
 
 	public static void main(String[] args) {
-		git config --global user.email "bykrealno@gmail.com"
-		git config --global user.name "Yauheni"
 		SpringApplication.run(DemoApplication.class, args);
 	}
 

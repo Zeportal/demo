@@ -5,7 +5,7 @@ services:
     image: postgres:15.3-alpine
     ports:
       - "5432:5432"
-    environment:
-      USER: "${USER}"
-      PASSWORD: "${PASSWORD}"
-      DB: db_test
+#    environment:
+#      USERLOGIN: "${USERLOGIN}"
+#      PASSWORD: "${PASSWORD}"
+#      DB: db_test
