@@ -6,8 +6,9 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_PASSWORD: admin
-      POSTGRES_LOGIN: postgres
+       POSTGRES_PASSWORD: admin
+       POSTGRES_DB: blog
+#      POSTGRES_LOGIN: postgres
 #      USERLOGIN: "${USERLOGIN}"
 #      PASSWORD: "${PASSWORD}"
 #      DB: db_test
