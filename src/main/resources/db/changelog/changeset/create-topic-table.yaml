@@ -1,0 +1,36 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: Zeportal
+      changes:
+        - createTable:
+            tableName: topic
+            remarks: topicName
+            columns:
+              - column:
+                  name: id
+                  type: integer
+                  autoIncrement: true
+                  constraints:
+                    primaryKey:  true
+                    nullable:  false
+                    primaryKeyName: topic_pk
+              - column:
+                  name: url
+                  remarks: Topic's url
+                  type: varchar(50)
+                  constraints:
+                    unique: true
+                    uniqueConstraintName: topic_url_unique
+                    nullable: false
+              - column:
+                  name: title
+                  type: varchar(50)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: createdBy
+                  remarks: author's url
+                  type: varchar(50)
+                  constraints:
+                    nullable: false

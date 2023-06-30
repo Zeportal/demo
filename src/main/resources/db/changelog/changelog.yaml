@@ -1,15 +1,8 @@
 databaseChangeLog:
-  - changeSet:
-      id: 1
-      author: Liquibase
-      changes:
-        - createTable:
-            tableName: Topic
-            columns:
-              - column:
-                  name: test_column
-                  type: INT
-                  constraints:
-                    primaryKey:  true
-                    nullable:  false
-                    tableName: test_table
+  - include:
+      file: db/changelog/changeset/create-topic-table.yaml
+  - include:
+      file: db/changelog/changeset/create-comment-table.yaml
+  - include:
+      file: db/changelog/changeset/create-user-table.yaml
+
