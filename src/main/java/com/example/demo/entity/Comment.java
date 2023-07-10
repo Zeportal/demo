@@ -1,70 +1,35 @@
 package com.example.demo.entity;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name="comment")
-
+@Setter
+@Getter
+@EqualsAndHashCode(exclude = "url")
+@NoArgsConstructor
 public class Comment {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    @SequenceGenerator(name="comment_seq", sequenceName = "user_sequence", initialValue = 1, allocationSize = 20)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "comment_seq")
+    private Long comment_id;
 
-    @Column(nullable = false, length = 50)
-    private String createdBy;
+    @Column(nullable = false, length = 70)
+    private String author;
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 400)
     private String text;
 
-    @Column(nullable = false, length = 50,insertable = false,updatable = false)
-    private String topicUrl;
-
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 70)
     private String url;
 
-    public Integer getId() {
-        return id;
-    }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public String getTopicUrl() {
-        return topicUrl;
-    }
-
-    public void setTopicUrl(String topicUrl) {
-        this.topicUrl = topicUrl;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-    public Comment() {
-
-    }
     @ManyToOne
-    @JoinColumn(name="topicUrl")
-    private Topic mTopic;
+    @JoinColumn(name="topic_id")
+    private Topic myTopic;
 }

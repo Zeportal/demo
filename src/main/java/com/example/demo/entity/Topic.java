@@ -1,64 +1,40 @@
 package com.example.demo.entity;
 
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
 @Table(name="topic")
-
+@Setter
+@Getter
+@EqualsAndHashCode(exclude = "url")
+@NoArgsConstructor
 public class Topic {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    @SequenceGenerator(name="topic_seq", sequenceName = "user_sequence", initialValue = 1, allocationSize = 20)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "topic_seq")
+    private Long topic_id;
 
-    @Column(nullable = false, length = 50)
-    private String createdBy;
+    @Column(nullable = false, length = 70)
+    private String author;
 
-    @Column(nullable = false, length = 50)
+    @Column(nullable = false, length = 70)
     private String title;
 
-    @Column(nullable = false, length = 50,insertable = false,updatable = false)
+    @Column(nullable = false, length = 70)
     private String url;
 
-    public Integer getId() {
-        return id;
-    }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-    public Topic() {
-
-    }
-    @OneToOne()
-    @JoinColumn(name="url")
+    @ManyToOne()
+    @JoinColumn(name="user_id")
     private User mUser;
 
-    @OneToMany(mappedBy = "mTopic")
+    @OneToMany(mappedBy = "myTopic")
     private Set<Comment> comments;
 
 }
