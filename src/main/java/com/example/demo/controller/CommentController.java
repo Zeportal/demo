@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.Comment;
+import com.example.demo.entity.Topic;
 import com.example.demo.exceptions.CommentNotFoundException;
 import com.example.demo.repos.CommentRepository;
 import com.example.demo.repos.TopicRepository;
@@ -50,6 +51,16 @@ public class CommentController {
                 .buildAndExpand(newComment.getComment_id()).toUri();
 
         return ResponseEntity.created(location).build();
+    }
+
+    @PutMapping("/topics/{topic_id}/{comment_id}")
+    public ResponseEntity<Object> updateComment(@RequestBody Comment comment, @PathVariable long topic_id, @PathVariable long comment_id) {
+        Optional<Comment> commentOptional = commentRepository.findById(comment_id);
+        if (commentOptional.isEmpty())
+            return ResponseEntity.notFound().build();
+        comment.setComment_id(comment_id);
+        commentRepository.save(comment);
+        return ResponseEntity.noContent().build();
     }
 
 }

@@ -51,5 +51,15 @@ public class TopicController {
         return ResponseEntity.created(location).build();
     }
 
+    @PutMapping("/topics/{topic_id}")
+    public ResponseEntity<Object> updateTopic(@RequestBody Topic topic, @PathVariable long topic_id) {
+        Optional<Topic> topicOptional = topicRepository.findById(topic_id);
+        if (topicOptional.isEmpty())
+            return ResponseEntity.notFound().build();
+        topic.setTopic_id(topic_id);
+        topicRepository.save(topic);
+        return ResponseEntity.noContent().build();
+    }
+
 
 }
