@@ -7,35 +7,32 @@ databaseChangeLog:
             tableName: comment
             columns:
               - column:
-                  name: id
-                  type: integer
-                  autoIncrement: true
+                  name: comment_id
+                  type: bigint
                   constraints:
                     primaryKey:  true
                     nullable:  false
                     primaryKeyName: comment_pk
+                    foreignKeyName: comment_fk
+                    references: topic
+                    referencedTableName: topic
+                    referencedColumnNames: topic_id
               - column:
                   name: url
                   remarks: Comment's url
-                  type: varchar(50)
+                  type: varchar(70)
                   constraints:
                     unique: true
                     uniqueConstraintName: comment_url_unique
                     nullable: false
               - column:
                   name: text
-                  type: varchar(200)
+                  type: varchar(400)
                   constraints:
                     nullable: false
               - column:
-                  name: createdBy
-                  remarks: author's url
-                  type: varchar(50)
-                  constraints:
-                    nullable: false
-              - column:
-                  name: topicUrl
-                  remarks: link to topic, where it was posted
-                  type: varchar(50)
+                  name: author
+                  remarks: author's name
+                  type: varchar(70)
                   constraints:
                     nullable: false

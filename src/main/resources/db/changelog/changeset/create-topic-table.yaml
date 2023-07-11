@@ -8,29 +8,34 @@ databaseChangeLog:
             remarks: topicName
             columns:
               - column:
-                  name: id
-                  type: integer
+                  name: topic_id
+                  type: bigint
                   autoIncrement: true
                   constraints:
                     primaryKey:  true
                     nullable:  false
                     primaryKeyName: topic_pk
+                    foreignKeyName: topic_fk
+                    references: user
+                    referencedTableName: user
+                    referencedColumnNames: user_id
+
               - column:
                   name: url
                   remarks: Topic's url
-                  type: varchar(50)
+                  type: varchar(70)
                   constraints:
                     unique: true
                     uniqueConstraintName: topic_url_unique
                     nullable: false
               - column:
                   name: title
-                  type: varchar(50)
+                  type: varchar(70)
                   constraints:
                     nullable: false
               - column:
-                  name: createdBy
-                  remarks: author's url
-                  type: varchar(50)
+                  name: author
+                  remarks: author's name
+                  type: varchar(70)
                   constraints:
                     nullable: false

@@ -1,8 +1,9 @@
 databaseChangeLog:
   - include:
+        file: db/changelog/changeset/create-user-table.yaml
+  - include:
       file: db/changelog/changeset/create-topic-table.yaml
   - include:
       file: db/changelog/changeset/create-comment-table.yaml
-  - include:
-      file: db/changelog/changeset/create-user-table.yaml
+
 
