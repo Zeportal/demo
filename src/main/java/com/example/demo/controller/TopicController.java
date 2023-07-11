@@ -1,65 +1,113 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.TopicDto;
 import com.example.demo.entity.Topic;
-import com.example.demo.exceptions.TopicNotFoundException;
-import com.example.demo.repos.TopicRepository;
+import com.example.demo.services.TopicService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
 @RestController
 public class TopicController {
     @Autowired
-    private TopicRepository topicRepository;
+    private TopicService topicService;
+    @Autowired
+    private ModelMapper modelMapper;
 
-    @GetMapping("/topics/{topic_id}")
-    public Topic retrieveTopicById(@PathVariable long topic_id) {
-        Optional<Topic> topic = topicRepository.findById(topic_id);
-
-        if (topic.isEmpty())
-            throw new TopicNotFoundException();
-        return topic.get();
+    @GetMapping("/topics")
+    public ResponseEntity<?> getTopic() {
+        Map<String, Object> jsonResponseMap = new LinkedHashMap<>();
+       try{
+           List<Topic> listOfTopic=topicService.getAllTopicsList();
+           List<TopicDto> listOfTopicDto=new ArrayList<>();
+           if (!listOfTopic.isEmpty()) {
+               for (Topic topic:listOfTopic){
+                   listOfTopicDto.add(modelMapper.map(topic, TopicDto.class));
+               }
+               jsonResponseMap.put("status",1);
+               jsonResponseMap.put("data",listOfTopicDto);
+               return new ResponseEntity<>(jsonResponseMap, HttpStatus.OK);
+             } else {
+               jsonResponseMap.clear();
+               jsonResponseMap.put("status", 0);
+               jsonResponseMap.put("message", "Data is not found");
+               return new ResponseEntity<>(jsonResponseMap, HttpStatus.NOT_FOUND);
+           }
+        } catch (Exception ex) {
+           jsonResponseMap.clear();
+           jsonResponseMap.put("status", 0);
+           jsonResponseMap.put("message", "Data is not found");
+           return new ResponseEntity<>(jsonResponseMap, HttpStatus.NOT_FOUND);
+       }
     }
 
-    @GetMapping("/topics/{author}")
-    public Topic retrieveTopicByAuthor(@PathVariable String author) {
-        Optional<Topic> topic = Optional.ofNullable(topicRepository.findByAuthor(author));
-
-        if (topic.isEmpty())
-            throw new TopicNotFoundException();
-        return topic.get();
+    @GetMapping("/topic/{topicId}")
+    public ResponseEntity<?> getTopicById(@PathVariable Long topicId) {
+        Map<String, Object> jsonResponseMap=new LinkedHashMap<>();
+        try{
+            Topic topic=topicService.findById(topicId);
+            TopicDto topicDto=modelMapper.map(topic, TopicDto.class);
+            jsonResponseMap.put("status", 1);
+            jsonResponseMap.put("data", topicDto);
+            return new ResponseEntity<>(jsonResponseMap,HttpStatus.OK);
+        } catch (Exception ex) {
+            jsonResponseMap.clear();
+            jsonResponseMap.put("status", 0);
+            jsonResponseMap.put("message", "Data is not found");
+            return new ResponseEntity<>(jsonResponseMap, HttpStatus.NOT_FOUND);
+        }
     }
 
-    @DeleteMapping("/topics/{topic_id}")
-    public void deleteTopic(@PathVariable long topic_id) {
-        topicRepository.deleteById(topic_id);
-
+    @PostMapping("/topic")
+    public ResponseEntity<?> saveTopic(@RequestBody TopicDto topicDto) {
+        Map<String,Object> jsonResponseMap=new LinkedHashMap<>();
+        Topic topic=modelMapper.map(topicDto, Topic.class);
+        topicService.save(topic);
+        jsonResponseMap.put("status",1);
+        jsonResponseMap.put("message","Saved Successfully");
+        return new ResponseEntity<>(jsonResponseMap,HttpStatus.CREATED);
     }
 
-    @PostMapping("/topics")
-    public ResponseEntity<Object> createTopic(@RequestBody Topic topic) {
-        Topic newTopic=topicRepository.save(topic);
-
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{topic_id}")
-                .buildAndExpand(newTopic.getTopic_id()).toUri();
-
-        return ResponseEntity.created(location).build();
+    @DeleteMapping("/topic/{topicId}")
+    public ResponseEntity<?> deleteTopic(@PathVariable Long topicId) {
+        Map<String,Object> jsonResponseMap=new LinkedHashMap<>();
+        try{
+            Topic topic=topicService.findById(topicId);
+            topicService.delete(topic);
+            jsonResponseMap.put("status", 1);
+            jsonResponseMap.put("message","Deleted successfully");
+            return new ResponseEntity<>(jsonResponseMap,HttpStatus.OK);
+        } catch (Exception ex){
+            jsonResponseMap.clear();
+            jsonResponseMap.put("status", 0);
+            jsonResponseMap.put("message", "Data is not found");
+            return new ResponseEntity<>(jsonResponseMap, HttpStatus.NOT_FOUND);
+        }
     }
 
-    @PutMapping("/topics/{topic_id}")
-    public ResponseEntity<Object> updateTopic(@RequestBody Topic topic, @PathVariable long topic_id) {
-        Optional<Topic> topicOptional = topicRepository.findById(topic_id);
-        if (topicOptional.isEmpty())
-            return ResponseEntity.notFound().build();
-        topic.setTopic_id(topic_id);
-        topicRepository.save(topic);
-        return ResponseEntity.noContent().build();
+    @PutMapping("/topic/{topicId}")
+    public ResponseEntity<?> updateTopic(@PathVariable Long topicId, @RequestBody TopicDto topicDto){
+        Map<String,Object> jsonResponseMap=new LinkedHashMap<>();
+        try{
+            Topic topic = topicService.findById(topicId);
+            topic.setAuthor(topicDto.getAuthor());
+            topic.setTitle(topicDto.getTitle());
+            topicService.save(topic);
+            jsonResponseMap.put("status",1);
+            jsonResponseMap.put("data",topicService.findById(topicId));
+            return new ResponseEntity<>(jsonResponseMap,HttpStatus.OK);
+        } catch (Exception ex) {
+            jsonResponseMap.clear();
+            jsonResponseMap.put("status",1);
+            jsonResponseMap.put("message","Data is not found");
+            return new ResponseEntity<>(jsonResponseMap,HttpStatus.NOT_FOUND);
+        }
     }
-
-
 }

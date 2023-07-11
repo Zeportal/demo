@@ -16,9 +16,9 @@ import java.util.Set;
 @NoArgsConstructor
 public class Topic {
     @Id
-    @SequenceGenerator(name="topic_seq", sequenceName = "user_sequence", initialValue = 1, allocationSize = 20)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "topic_seq")
-    private Long topic_id;
+    @SequenceGenerator(name="topicSeq", sequenceName = "userSequence", initialValue = 1, allocationSize = 20)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "topicSeq")
+    private Long topicId;
 
     @Column(nullable = false, length = 70)
     private String author;
@@ -31,10 +31,10 @@ public class Topic {
 
 
     @ManyToOne()
-    @JoinColumn(name="user_id")
-    private User mUser;
+    @JoinColumn(name="userId")
+    private User user;
 
-    @OneToMany(mappedBy = "myTopic")
+    @OneToMany(mappedBy = "topic")
     private Set<Comment> comments;
 
 }
