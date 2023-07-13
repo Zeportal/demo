@@ -4,6 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 
@@ -24,6 +25,9 @@ public class Comment {
 
     @Column(nullable = false, length = 400)
     private String text;
+
+    @Column(nullable = false, insertable = false, updatable = false)
+    private Long topicId;
 
 
 
