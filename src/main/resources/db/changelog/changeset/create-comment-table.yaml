@@ -7,25 +7,12 @@ databaseChangeLog:
             tableName: comment
             columns:
               - column:
-                  name: commentId
+                  name: comment_id
                   type: bigint
                   autoIncrement: true
                   constraints:
                     primaryKey:  true
                     nullable:  false
-                    primaryKeyName: commentPk
-                    foreignKeyName: commentFk
-                    references: topic
-                    referencedTableName: topic
-                    referencedColumnNames: topicId
-              - column:
-                  name: url
-                  remarks: Comment's url
-                  type: varchar(70)
-                  constraints:
-                    unique: true
-                    uniqueConstraintName: commentUrlUnique
-                    nullable: false
               - column:
                   name: text
                   type: varchar(400)
@@ -37,6 +24,15 @@ databaseChangeLog:
                   type: varchar(70)
                   constraints:
                     nullable: false
+              - column:
+                  name: topic_id
+                  type: bigint
+                  constraints:
+                    nullable:  false
+                    foreignKeyName: comment_fk
+                    references: public.topic(topic_id)
+                    referencedTableName: topic
+                    referencedColumnNames: topic_id
         - createSequence:
-            sequenceName: userSequence
+            sequenceName: user_sequence
             incrementBy: 20

@@ -8,7 +8,7 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-@Table(name="user")
+@Table(name="user", schema = "public")
 @Setter
 @Getter
 @EqualsAndHashCode()
@@ -20,10 +20,10 @@ public class User {
     private Long userId;
 
     @Column(nullable = false, length = 70)
-    private String userLogin;
+    private String user_login;
 
     @Column(nullable = false, length = 70)
-    private String userPassword;
+    private String user_password;
 
 
 //    @OneToMany(mappedBy = "user")

@@ -8,7 +8,7 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-@Table(name="comment")
+@Table(name="comment", schema = "public")
 @Setter
 @Getter
 @EqualsAndHashCode(exclude = "url")
@@ -25,8 +25,6 @@ public class Comment {
     @Column(nullable = false, length = 400)
     private String text;
 
-    @Column(nullable = false, length = 70)
-    private String url;
 
 
     @ManyToOne

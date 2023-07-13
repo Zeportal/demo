@@ -9,13 +9,12 @@ import lombok.*;
 @Setter
 @Getter
 public class CommentDto {
-    Long commentId;
 
     String author;
 
     String text;
 
-//    @JsonProperty("topic")
-//    CommentDto commentDto;
+    @JsonProperty("topic")
+    TopicDto topicDto;
 
 }

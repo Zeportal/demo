@@ -6,10 +6,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
+
 
 @Entity
-@Table(name="topic")
+@Table(name="topic", schema = "public")
 @Setter
 @Getter
 @EqualsAndHashCode(exclude = "url")
@@ -26,15 +27,14 @@ public class Topic {
     @Column(nullable = false, length = 70)
     private String title;
 
-    @Column(nullable = false, length = 70)
-    private String url;
+
 
 
     @ManyToOne()
     @JoinColumn(name="userId")
     private User user;
 
-    @OneToMany(mappedBy = "topic")
-    private Set<Comment> comments;
+//    @OneToMany(mappedBy = "topic")
+//    private List<Comment> comments;
 
 }

@@ -17,8 +17,8 @@ public class TopicDto {
 
     String author;
 
-//    @JsonProperty("user")
-//    UserDto userDto;
+    @JsonProperty("user")
+    UserDto userDto;
 //
 //    @JsonProperty("comments")
 //    Set<CommentDto> commentDto;
