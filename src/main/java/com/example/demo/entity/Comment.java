@@ -15,9 +15,9 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class Comment {
     @Id
-    @SequenceGenerator(name="comment_seq", sequenceName = "user_sequence", initialValue = 1, allocationSize = 20)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "comment_seq")
-    private Long comment_id;
+    @SequenceGenerator(name="commentSeq", sequenceName = "userSequence", initialValue = 1, allocationSize = 20)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "commentSeq")
+    private Long commentId;
 
     @Column(nullable = false, length = 70)
     private String author;
@@ -30,6 +30,6 @@ public class Comment {
 
 
     @ManyToOne
-    @JoinColumn(name="topic_id")
-    private Topic myTopic;
+    @JoinColumn(name="topicId")
+    private Topic topic;
 }

@@ -1,66 +1,116 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.CommentDto;
 import com.example.demo.entity.Comment;
 import com.example.demo.entity.Topic;
-import com.example.demo.exceptions.CommentNotFoundException;
-import com.example.demo.repos.CommentRepository;
-import com.example.demo.repos.TopicRepository;
+import com.example.demo.services.CommentService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 public class CommentController {
 
     @Autowired
-    private CommentRepository commentRepository;
-
+    private CommentService commentService;
     @Autowired
-    private TopicRepository topicRepository;
+    private ModelMapper modelMapper;
 
-    @GetMapping("/topics/{topic_id}/{comment_id}")
-    public Comment retrieveCommentById(@PathVariable long topic_id, long comment_id){
-        Optional<Comment> comment=commentRepository.findById(comment_id);
-        if (comment.isEmpty())
-            throw new CommentNotFoundException();
-        return comment.get();
+    @GetMapping("/topic/{topicId}/comments")
+    public ResponseEntity<?> getComment(Topic topic) {
+        Map<String, Object> jsonResponseMap = new LinkedHashMap<>();
+        try{
+            List<Comment> listOfComment=commentService.findByTopic(topic);
+            List<CommentDto> listOfCommentDto=new ArrayList<>();
+            if (!listOfComment.isEmpty()) {
+                for (Comment comment:listOfComment){
+                    listOfCommentDto.add(modelMapper.map(comment, CommentDto.class));
+                }
+                jsonResponseMap.put("status",1);
+                jsonResponseMap.put("data",listOfCommentDto);
+                return new ResponseEntity<>(jsonResponseMap, HttpStatus.OK);
+            } else {
+                jsonResponseMap.clear();
+                jsonResponseMap.put("status", 0);
+                jsonResponseMap.put("message", "Data is not found");
+                return new ResponseEntity<>(jsonResponseMap, HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception ex) {
+            jsonResponseMap.clear();
+            jsonResponseMap.put("status", 0);
+            jsonResponseMap.put("message", "Data is not found");
+            return new ResponseEntity<>(jsonResponseMap, HttpStatus.NOT_FOUND);
+        }
     }
 
-    @GetMapping("/topics/{topic_id}/")
-    public Comment retrieveComments(@PathVariable long topic_id){
-        Optional<Comment> comment= Optional.ofNullable(commentRepository.findByMyTopic(topic_id));
-        if (comment.isEmpty())
-            throw new CommentNotFoundException();
-        return comment.get();
+    @GetMapping("/topic/{topicId}/{commentId}")
+    public ResponseEntity<?> getCommentById(@PathVariable Long commentId){
+        Map<String, Object> jsonResponseMap = new LinkedHashMap<>();
+        try{
+            Comment comment=commentService.findById(commentId);
+            CommentDto commentDto=modelMapper.map(comment,CommentDto.class);
+            jsonResponseMap.put("status", 1);
+            jsonResponseMap.put("data", commentDto);
+            return new ResponseEntity<>(jsonResponseMap,HttpStatus.OK);
+        } catch (Exception ex) {
+            jsonResponseMap.clear();
+            jsonResponseMap.put("status", 0);
+            jsonResponseMap.put("message", "Data is not found");
+            return new ResponseEntity<>(jsonResponseMap, HttpStatus.NOT_FOUND);
+        }
     }
 
-    @DeleteMapping("/topics/{topic_id}/{commend_id}")
-    public void deleteComment(@PathVariable long topic_id, @PathVariable long comment_id) {
-        commentRepository.deleteById(comment_id);
+    @PostMapping("/topic/{topicId}")
+    public ResponseEntity<?> saveComment(@RequestBody CommentDto commentDto) {
+        Map<String, Object> jsonResponseMap=new LinkedHashMap<>();
+        Comment comment=modelMapper.map(commentDto, Comment.class);
+        commentService.save(comment);
+        jsonResponseMap.put("status",1);
+        jsonResponseMap.put("message","Saved Successfully");
+        return new ResponseEntity<>(jsonResponseMap,HttpStatus.CREATED);
     }
 
-    @PostMapping("/topics/{topic_id}")
-    public ResponseEntity<Object> createComment(@PathVariable long topic_id,@RequestBody Comment comment) {
-        Comment newComment=commentRepository.save(comment);
-
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{comment_id}")
-                .buildAndExpand(newComment.getComment_id()).toUri();
-
-        return ResponseEntity.created(location).build();
+    @DeleteMapping("/topic/{topicId}/{commentId}")
+    public ResponseEntity<?> deleteComment(@PathVariable Long commentId){
+        Map<String,Object> jsonResponseMap=new LinkedHashMap<>();
+        try{
+            Comment comment=commentService.findById(commentId);
+            commentService.delete(comment);
+            jsonResponseMap.put("status", 1);
+            jsonResponseMap.put("message","Deleted successfully");
+            return new ResponseEntity<>(jsonResponseMap,HttpStatus.OK);
+        } catch (Exception ex){
+            jsonResponseMap.clear();
+            jsonResponseMap.put("status", 0);
+            jsonResponseMap.put("message", "Data is not found");
+            return new ResponseEntity<>(jsonResponseMap, HttpStatus.NOT_FOUND);
+        }
     }
 
-    @PutMapping("/topics/{topic_id}/{comment_id}")
-    public ResponseEntity<Object> updateComment(@RequestBody Comment comment, @PathVariable long topic_id, @PathVariable long comment_id) {
-        Optional<Comment> commentOptional = commentRepository.findById(comment_id);
-        if (commentOptional.isEmpty())
-            return ResponseEntity.notFound().build();
-        comment.setComment_id(comment_id);
-        commentRepository.save(comment);
-        return ResponseEntity.noContent().build();
+    @PutMapping("/topic/{topicId}/{commentId}")
+    public ResponseEntity<?> updateComment(@PathVariable Long commentId, @RequestBody CommentDto commentDto){
+        Map<String,Object> jsonResponseMap=new LinkedHashMap<>();
+        try{
+            Comment comment=commentService.findById(commentId);
+            comment.setAuthor(commentDto.getAuthor());
+            comment.setText(commentDto.getText());
+            commentService.save(comment);
+            jsonResponseMap.put("status",1);
+            jsonResponseMap.put("data",commentService.findById(commentId));
+            return new ResponseEntity<>(jsonResponseMap,HttpStatus.OK);
+        } catch (Exception ex) {
+            jsonResponseMap.clear();
+            jsonResponseMap.put("status",1);
+            jsonResponseMap.put("message","Data is not found");
+            return new ResponseEntity<>(jsonResponseMap,HttpStatus.NOT_FOUND);
+        }
     }
 
 }

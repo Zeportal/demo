@@ -4,10 +4,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
 @Table(name="user")
@@ -17,9 +15,9 @@ import java.util.Set;
 @NoArgsConstructor
 public class User {
     @Id
-    @SequenceGenerator(name="user_seq", sequenceName = "user_sequence", initialValue = 1, allocationSize = 20)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
-    private Long user_id;
+    @SequenceGenerator(name="userSeq", sequenceName = "userSequence", initialValue = 1, allocationSize = 20)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "userSeq")
+    private Long userId;
 
     @Column(nullable = false, length = 70)
     private String userLogin;
@@ -28,6 +26,6 @@ public class User {
     private String userPassword;
 
 
-    @OneToMany(mappedBy = "mUser")
-    private Set<Topic> topics;
+//    @OneToMany(mappedBy = "user")
+//    private Set<Topic> topics;
 }
