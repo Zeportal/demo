@@ -7,25 +7,25 @@ databaseChangeLog:
             tableName: user
             columns:
               - column:
-                  name: userId
+                  name: user_id
                   type: bigint
                   autoIncrement: true
                   constraints:
                     primaryKey:  true
                     nullable:  false
-                    primaryKeyName: userPk
+                    primaryKeyName: user_pk
               - column:
-                  name: userLogin
+                  name: user_login
                   type: varchar(70)
                   constraints:
                     nullable: false
                     unique: true
-                    uniqueConstraintName: userLogin
+                    uniqueConstraintName: user_login
               - column:
-                  name: userPassword
+                  name: user_password
                   type: varchar(70)
                   constraints:
                     nullable: false
         - createSequence:
-            sequenceName: userSequence
+            sequenceName: user_sequence
             incrementBy: 20
