@@ -45,7 +45,8 @@ public class CommentService {
         }
     }
 
-    public ResponseEntity<?> saveComment(CommentDto commentDto) {
+    public ResponseEntity<?> saveComment(CommentDto commentDto, Long topicId) {
+        commentDto.setTopicId(topicId);
         Comment comment=modelMapper.map(commentDto, Comment.class);
         commentRepository.save(comment);
         return new ResponseEntity<>("Saved successfully",HttpStatus.CREATED);

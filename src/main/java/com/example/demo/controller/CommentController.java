@@ -26,8 +26,8 @@ public class CommentController {
     }
 
     @PostMapping("/topic/{topicId}")
-    public ResponseEntity<?> saveComment(@RequestBody CommentDto commentDto) {
-        return commentService.saveComment(commentDto);
+    public ResponseEntity<?> saveComment(@RequestBody CommentDto commentDto,@PathVariable Long topicId) {
+        return commentService.saveComment(commentDto, topicId);
     }
 
     @DeleteMapping("/topic/{topicId}/{commentId}")
