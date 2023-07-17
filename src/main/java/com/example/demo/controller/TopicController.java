@@ -1,11 +1,8 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.TopicDto;
-import com.example.demo.logger.SpringLoggingHelper;
 import com.example.demo.services.TopicService;
 import org.modelmapper.ModelMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,16 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class TopicController {
 
-    private final Logger logger = LoggerFactory.getLogger(this.getClass());
-    @RequestMapping("/")
-    String index(){
-        logger.debug("This is a debug message");
-        logger.info("This is an info message");
-        logger.warn("This is a warn message");
-        logger.error("This is an error message");
-        new SpringLoggingHelper().helpMethod();
-        return "index";
-    }
+
     @Autowired
     private TopicService topicService;
     @Autowired
