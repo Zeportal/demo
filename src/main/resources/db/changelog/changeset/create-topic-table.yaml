@@ -5,29 +5,14 @@ databaseChangeLog:
       changes:
         - createTable:
             tableName: topic
-            remarks: topicName
             columns:
               - column:
-                  name: topicId
+                  name: topic_id
                   type: bigint
                   autoIncrement: true
                   constraints:
                     primaryKey:  true
                     nullable:  false
-                    primaryKeyName: topicPk
-                    foreignKeyName: topicFk
-                    references: user
-                    referencedTableName: user
-                    referencedColumnNames: userId
-
-              - column:
-                  name: url
-                  remarks: Topic's url
-                  type: varchar(70)
-                  constraints:
-                    unique: true
-                    uniqueConstraintName: topicUrlUnique
-                    nullable: false
               - column:
                   name: title
                   type: varchar(70)
@@ -39,6 +24,16 @@ databaseChangeLog:
                   type: varchar(70)
                   constraints:
                     nullable: false
+              - column:
+                  name: user_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+                    foreignKeyName: topic_fk
+                    references: public.user(user_id)
+                    referencedTableName: user
+                    referencedColumnNames: user_id
+
         - createSequence:
-            sequenceName: userSequence
+            sequenceName: user_sequence
             incrementBy: 20
