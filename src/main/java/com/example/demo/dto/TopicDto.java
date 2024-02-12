@@ -2,19 +2,19 @@ package com.example.demo.dto;
 
 import lombok.*;
 
+import javax.validation.constraints.NotEmpty;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Setter
-@Getter
 public class TopicDto {
-
+    @NotEmpty
     Long topicId;
-
+    @NotEmpty
     String title;
-
+    @NotEmpty
     String author;
-
+    @NotEmpty
     String userId;
 
 }

@@ -2,11 +2,15 @@ package com.example.demo.controller;
 
 
 import com.example.demo.dto.CommentDto;
+import com.example.demo.responseDto.ResponseCommentDto;
 import com.example.demo.services.CommentService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.constraints.NotEmpty;
+import java.util.List;
 
 
 @RestController
@@ -20,12 +24,12 @@ public class CommentController {
     private ModelMapper modelMapper;
 
     @GetMapping("/topic/{topicId}/comments")
-    public ResponseEntity<?> getComments(@PathVariable Long topicId) {
+    public List<ResponseCommentDto> getComments(@PathVariable Long topicId) {
         return commentService.getComments(topicId);
     }
 
     @GetMapping("/topic/{topicId}/{commentId}")
-    public ResponseEntity<?> getCommentById(@PathVariable Long commentId){
+    public ResponseCommentDto getCommentById(@PathVariable Long commentId){
         return commentService.getCommentById(commentId);
     }
 
@@ -40,7 +44,7 @@ public class CommentController {
     }
 
     @PutMapping("/topic/{topicId}/{commentId}")
-    public ResponseEntity<?> updateComment(@PathVariable Long commentId, @RequestBody CommentDto commentDto){
+    public ResponseCommentDto updateComment(@PathVariable Long commentId, @RequestBody CommentDto commentDto){
         return commentService.updateComment(commentId,commentDto);
     }
 

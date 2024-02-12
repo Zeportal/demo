@@ -2,7 +2,9 @@ package com.example.demo.services;
 
 import com.example.demo.dto.CommentDto;
 import com.example.demo.entity.Comment;
+import com.example.demo.exceptions.ResourceNotFoundException;
 import com.example.demo.repos.CommentRepository;
+import com.example.demo.responseDto.ResponseCommentDto;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,6 +13,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CommentService {
@@ -22,27 +26,23 @@ public class CommentService {
     private ModelMapper modelMapper;
 
 
-    public ResponseEntity<?> getComments(Long topicId) {
-        List<Comment> listOfComment=commentRepository.findByTopicId(topicId);
-        List<CommentDto> listOfCommentDto=new ArrayList<>();
-        if (!listOfComment.isEmpty()) {
-            for (Comment comment:listOfComment){
-                listOfCommentDto.add(modelMapper.map(comment, CommentDto.class));
-            }
-            return new ResponseEntity<List>(listOfCommentDto,HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("data not found", HttpStatus.NOT_FOUND);
-        }
+    public List<ResponseCommentDto> getComments(Long topicId) {
+        List<ResponseCommentDto> listOfResponseCommentDto = commentRepository.findByTopicId(topicId).stream()
+                .map(comment -> modelMapper.map(comment, ResponseCommentDto.class))
+                .toList();
+        return Optional.of(listOfResponseCommentDto)
+                .filter(list->!list.isEmpty())
+                .map(list->listOfResponseCommentDto)
+                .orElseThrow(()->new ResourceNotFoundException("No comments found"));
     }
 
-    public ResponseEntity<?> getCommentById(Long commentId){
-        try{
-            Comment comment=commentRepository.findById(commentId).get();
-            CommentDto commentDto=modelMapper.map(comment,CommentDto.class);
-            return new ResponseEntity<>(commentDto,HttpStatus.OK);
-        } catch (Exception ex) {
-            return new ResponseEntity<>("data not found", HttpStatus.NOT_FOUND);
-        }
+    public ResponseCommentDto getCommentById(Long commentId){
+        return commentRepository.findById(commentId)
+                .map(comment -> {
+                    ResponseCommentDto responseCommentDto = modelMapper.map(comment, ResponseCommentDto.class);
+                    return responseCommentDto;
+                })
+                .orElseThrow(()-> new ResourceNotFoundException("Comment with id "+ commentId + " not found"));
     }
 
     public ResponseEntity<?> saveComment(CommentDto commentDto, Long topicId) {
@@ -61,16 +61,16 @@ public class CommentService {
         }
     }
 
-    public ResponseEntity<?> updateComment(Long commentId, CommentDto commentDto){
-        try{
-            Comment comment=commentRepository.findById(commentId).get();
-            comment.setAuthor(commentDto.getAuthor());
-            comment.setText(commentDto.getText());
-            commentRepository.save(comment);
-            return new ResponseEntity<>(commentDto,HttpStatus.OK);
-        } catch (Exception ex) {
-            return new ResponseEntity<>("Data not found",HttpStatus.NOT_FOUND);
-        }
+    public ResponseCommentDto updateComment(Long commentId, CommentDto commentDto){
+        return commentRepository.findById(commentId)
+                .map(comment -> {
+                    comment.setAuthor(commentDto.getAuthor());
+                    comment.setText(commentDto.getText());
+                    commentRepository.save(comment);
+                    ResponseCommentDto responseCommentDto = modelMapper.map(comment, ResponseCommentDto.class);
+                    return responseCommentDto;
+                })
+                .orElseThrow(()->new ResourceNotFoundException("Comment with id "+ commentId + " not found"));
     }
 
 }

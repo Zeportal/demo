@@ -1,20 +1,23 @@
 package com.example.demo.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.validation.constraints.NotEmpty;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Setter
-@Getter
 public class CommentDto {
 
+    @NotEmpty
     Long commentId;
-
+    @NotEmpty
     String author;
-
+    @NotEmpty
     String text;
-
+    @NotEmpty
     Long topicId;
 
 }
