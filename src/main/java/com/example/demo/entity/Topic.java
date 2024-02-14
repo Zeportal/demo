@@ -4,22 +4,21 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
 
 
 @Entity
-@Table(name="topic", schema = "public")
+@Table(name = "topic", schema = "public")
 @Setter
 @Getter
 @EqualsAndHashCode
 @NoArgsConstructor
 public class Topic {
     @Id
-    @SequenceGenerator(name="topicSeq", sequenceName = "userSequence", initialValue = 1, allocationSize = 20)
+    @SequenceGenerator(name = "topicSeq", sequenceName = "userSequence", initialValue = 1, allocationSize = 20)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "topicSeq")
-    @NotEmpty
     private Long topicId;
 
     @NotEmpty
@@ -31,14 +30,10 @@ public class Topic {
     private String title;
 
 
-
-
     @ManyToOne
-    @JoinColumn(name="userId")
+    @JoinColumn(name = "userId")
     @EqualsAndHashCode.Exclude
     private User user;
 
-//    @OneToMany(mappedBy = "topic")
-//    private List<Comment> comments;
 
 }

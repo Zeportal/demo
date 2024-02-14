@@ -35,6 +35,11 @@
         <appender-ref ref="RollingFile" />
         <appender-ref ref="Console" />
     </root>
+    <logger name="com.example.demo.aspects"  additivity="false">
+        <level value="DEBUG" />
+        <appender-ref ref="Console" />
+        <appender-ref ref="RollingFile" />
+    </logger>
 
     <logger name="com.baeldung" level="trace" additivity="false">
         <appender-ref ref="RollingFile" />
@@ -46,10 +51,11 @@
         <appender-ref ref="RollingFile" />
     </logger>
 
-    <logger name="org.hibernate.type" additivity="false" >
+<!--    <logger name="org.hibernate.type" additivity="false" >
         <level value="TRACE" />
         <appender-ref ref="Console" />
         <appender-ref ref="RollingFile" />
-    </logger>
+    </logger>-->
+
 
 </configuration>

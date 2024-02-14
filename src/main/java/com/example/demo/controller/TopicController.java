@@ -41,7 +41,7 @@ public class TopicController {
     }
 
     @PutMapping("/topic/{topicId}")
-    public ResponseTopicDto updateTopic(@PathVariable Long topicId, @RequestBody TopicDto topicDto){
-        return topicService.updateTopic(topicId,topicDto);
+    public ResponseTopicDto updateTopic(@PathVariable Long topicId, @RequestBody TopicDto topicDto) {
+        return topicService.updateTopic(topicId, topicDto);
     }
 }
