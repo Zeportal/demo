@@ -1,9 +1,6 @@
 package com.example.demo.entity;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
@@ -15,6 +12,7 @@ import javax.persistence.*;
 @Getter
 @EqualsAndHashCode
 @NoArgsConstructor
+@AllArgsConstructor
 public class Comment {
     @Id
     @SequenceGenerator(name = "commentSeq", sequenceName = "userSequence", initialValue = 1, allocationSize = 20)
@@ -36,5 +34,12 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name = "topicId")
     @EqualsAndHashCode.Exclude
-    private Topic topic;
+    private  Topic topic;
+
+    public Comment(Long commentId, String author, String text, Long topicId) {
+        this.commentId=commentId;
+        this.author=author;
+        this.text=text;
+        this.topicId=topicId;
+    }
 }
