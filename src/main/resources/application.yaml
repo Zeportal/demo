@@ -12,7 +12,6 @@ spring:
   liquibase:
     enabled: true
     change-log: classpath:db/changelog/changelog.yaml
-  liquibase.change-log: classpath:db/changelog/changelog.yaml
   logging:
     file:
       path: logs

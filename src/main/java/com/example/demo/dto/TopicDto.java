@@ -1,18 +1,21 @@
 package com.example.demo.dto;
 
-import lombok.*;
-import org.hibernate.validator.constraints.NotEmpty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.validation.constraints.NotBlank;
 
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class TopicDto {
-    Long topicId;
-    @NotEmpty
-    String title;
-    @NotEmpty
-    String author;
-    String userId;
+    private Long topicId;
+    @NotBlank
+    private String title;
+    @NotBlank
+    private String author;
+    private String userId;
 
 }

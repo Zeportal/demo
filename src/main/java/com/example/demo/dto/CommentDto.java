@@ -3,7 +3,8 @@ package com.example.demo.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.validation.constraints.NotBlank;
 
 
 @Data
@@ -11,11 +12,11 @@ import org.hibernate.validator.constraints.NotEmpty;
 @AllArgsConstructor
 public class CommentDto {
 
-    Long commentId;
-    @NotEmpty
-    String author;
-    @NotEmpty
-    String text;
-    Long topicId;
+    private Long commentId;
+    @NotBlank
+    private String author;
+    @NotBlank
+    private String text;
+    private Long topicId;
 
 }
