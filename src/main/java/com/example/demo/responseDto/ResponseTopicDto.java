@@ -1,4 +1,4 @@
-package com.example.demo.dto;
+package com.example.demo.responseDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,13 +9,14 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommentDto {
-
-    Long commentId;
+public class ResponseTopicDto {
+    @NotEmpty
+    Long topicId;
+    @NotEmpty
+    String title;
     @NotEmpty
     String author;
     @NotEmpty
-    String text;
-    Long topicId;
+    String userId;
 
 }

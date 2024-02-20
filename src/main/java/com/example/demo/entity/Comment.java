@@ -1,28 +1,29 @@
 package com.example.demo.entity;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.hibernate.annotations.Cascade;
+import lombok.*;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 
+
 @Entity
-@Table(name="comment", schema = "public")
+@Table(name = "comment", schema = "public")
 @Setter
 @Getter
-@EqualsAndHashCode(exclude = "url")
+@EqualsAndHashCode
 @NoArgsConstructor
+@AllArgsConstructor
 public class Comment {
     @Id
-    @SequenceGenerator(name="commentSeq", sequenceName = "userSequence", initialValue = 1, allocationSize = 20)
+    @SequenceGenerator(name = "commentSeq", sequenceName = "userSequence", initialValue = 1, allocationSize = 20)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "commentSeq")
     private Long commentId;
 
+    @NotEmpty
     @Column(nullable = false, length = 70)
     private String author;
 
+    @NotEmpty
     @Column(nullable = false, length = 400)
     private String text;
 
@@ -30,8 +31,15 @@ public class Comment {
     private Long topicId;
 
 
-
     @ManyToOne
-    @JoinColumn(name="topicId")
-    private Topic topic;
+    @JoinColumn(name = "topicId")
+    @EqualsAndHashCode.Exclude
+    private  Topic topic;
+
+    public Comment(Long commentId, String author, String text, Long topicId) {
+        this.commentId=commentId;
+        this.author=author;
+        this.text=text;
+        this.topicId=topicId;
+    }
 }
