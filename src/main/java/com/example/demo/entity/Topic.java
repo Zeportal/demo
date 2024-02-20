@@ -1,19 +1,14 @@
 package com.example.demo.entity;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.hibernate.validator.constraints.NotEmpty;
+import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 
 @Entity
 @Table(name = "topic", schema = "public")
-@Setter
-@Getter
-@EqualsAndHashCode
+@Data
 @NoArgsConstructor
 public class Topic {
     @Id
@@ -21,11 +16,11 @@ public class Topic {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "topicSeq")
     private Long topicId;
 
-    @NotEmpty
+    @NotBlank
     @Column(nullable = false, length = 70)
     private String author;
 
-    @NotEmpty
+    @NotBlank
     @Column(nullable = false, length = 70)
     private String title;
 
@@ -33,6 +28,7 @@ public class Topic {
     @ManyToOne
     @JoinColumn(name = "userId")
     @EqualsAndHashCode.Exclude
+    @ToString.Exclude
     private User user;
 
 

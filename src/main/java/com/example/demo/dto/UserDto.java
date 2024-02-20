@@ -2,13 +2,14 @@ package com.example.demo.dto;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.validation.constraints.NotBlank;
 
 
 @Data
 @NoArgsConstructor
 public class UserDto {
     private Long userId;
-    @NotEmpty
+    @NotBlank
     private String userLogin;
 }
