@@ -31,5 +31,9 @@ public class Topic {
     @ToString.Exclude
     private User user;
 
-
+    public Topic(Long topicId, String author, String title) {
+        this.topicId = topicId;
+        this.author = author;
+        this.title = title;
+    }
 }

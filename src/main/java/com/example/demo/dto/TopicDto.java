@@ -1,6 +1,7 @@
 package com.example.demo.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -18,4 +19,9 @@ public class TopicDto {
     private String author;
     private String userId;
 
+    public TopicDto(Long topicId, String author, String title) {
+        this.topicId = topicId;
+        this.title = title;
+        this.author = author;
+    }
 }

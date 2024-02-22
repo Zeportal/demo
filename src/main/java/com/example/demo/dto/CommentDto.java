@@ -19,4 +19,8 @@ public class CommentDto {
     private String text;
     private Long topicId;
 
+    public CommentDto(String author, String text) {
+        this.author = author;
+        this.text = text;
+    }
 }
