@@ -1,22 +1,25 @@
 package com.example.demo.responseDto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.validation.constraints.NotBlank;
 
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class ResponseTopicDto {
-    @NotEmpty
-    Long topicId;
-    @NotEmpty
-    String title;
-    @NotEmpty
-    String author;
-    @NotEmpty
-    String userId;
+
+    private Long topicId;
+    @NotBlank
+    private String title;
+    @NotBlank
+    private String author;
+
+    private Long userId;
 
 }
