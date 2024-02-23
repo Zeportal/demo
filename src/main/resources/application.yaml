@@ -12,9 +12,10 @@ spring:
   liquibase:
     enabled: true
     change-log: classpath:db/changelog/changelog.yaml
-  liquibase.change-log: classpath:db/changelog/changelog.yaml
   logging:
     file:
       path: logs
 server:
   port: 8080
+
+  outputLimit: 10

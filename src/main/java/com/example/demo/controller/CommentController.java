@@ -4,11 +4,9 @@ package com.example.demo.controller;
 import com.example.demo.dto.CommentDto;
 import com.example.demo.responseDto.ResponseCommentDto;
 import com.example.demo.services.CommentService;
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -16,10 +14,12 @@ import java.util.List;
 public class CommentController {
 
 
-    @Autowired
-    private CommentService commentService;
-    @Autowired
-    private ModelMapper modelMapper;
+    private final CommentService commentService;
+
+
+    public CommentController(CommentService commentService) {
+        this.commentService = commentService;
+    }
 
     @GetMapping("/topic/{topicId}/comments")
     public List<ResponseCommentDto> getComments(@PathVariable Long topicId) {
@@ -32,17 +32,17 @@ public class CommentController {
     }
 
     @PostMapping("/topic/{topicId}")
-    public ResponseEntity<?> saveComment(@RequestBody CommentDto commentDto, @PathVariable Long topicId) {
+    public ResponseCommentDto saveComment(@RequestBody @Valid CommentDto commentDto, @PathVariable Long topicId) {
         return commentService.saveComment(commentDto, topicId);
     }
 
     @DeleteMapping("/topic/{topicId}/{commentId}")
-    public ResponseEntity<?> deleteComment(@PathVariable Long commentId) {
-        return commentService.deleteComment(commentId);
+    public void deleteComment(@PathVariable Long commentId) {
+        commentService.deleteComment(commentId);
     }
 
     @PutMapping("/topic/{topicId}/{commentId}")
-    public ResponseCommentDto updateComment(@PathVariable Long commentId, @RequestBody CommentDto commentDto) {
+    public ResponseCommentDto updateComment(@PathVariable Long commentId, @RequestBody @Valid CommentDto commentDto) {
         return commentService.updateComment(commentId, commentDto);
     }
 

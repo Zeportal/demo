@@ -1,41 +1,342 @@
-2024-02-15 18:58:53,151 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-1] Url: http://localhost:8080/topic. HTTP method: POST. Signature: TopicController.saveTopic 
-2024-02-15 18:58:53,183 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-1] select nextval ('user_sequence')
-2024-02-15 18:58:53,211 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-1] insert into public.topic (author, title, user_id, topic_id) values (?, ?, ?, ?)
-2024-02-15 18:58:57,766 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-3] Url: http://localhost:8080/topics. HTTP method: GET. Signature: TopicController.getAllTopics 
-2024-02-15 18:58:58,061 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-3] select topic0_.topic_id as topic_id1_1_, topic0_.author as author2_1_, topic0_.title as title3_1_, topic0_.user_id as user_id4_1_ from public.topic topic0_
-2024-02-15 18:58:58,066 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-3] select user0_.user_id as user_id1_2_0_, user0_.user_login as user_log2_2_0_, user0_.user_password as user_pas3_2_0_ from public.user user0_ where user0_.user_id=?
-2024-02-15 19:05:55,284 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-6] Url: http://localhost:8080/topic/1. HTTP method: POST. Signature: CommentController.saveComment 
-2024-02-15 19:05:55,291 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-6] select nextval ('user_sequence')
-2024-02-15 19:05:55,292 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-6] insert into public.comment (author, text, topic_id, comment_id) values (?, ?, ?, ?)
-2024-02-15 19:05:56,067 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-7] Url: http://localhost:8080/topic/1. HTTP method: POST. Signature: CommentController.saveComment 
-2024-02-15 19:05:56,070 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-7] insert into public.comment (author, text, topic_id, comment_id) values (?, ?, ?, ?)
-2024-02-15 19:05:56,676 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-8] Url: http://localhost:8080/topic/1. HTTP method: POST. Signature: CommentController.saveComment 
-2024-02-15 19:05:56,678 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-8] insert into public.comment (author, text, topic_id, comment_id) values (?, ?, ?, ?)
-2024-02-15 19:05:59,915 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-9] Url: http://localhost:8080/topic/1/comments. HTTP method: GET. Signature: CommentController.getComments 
-2024-02-15 19:05:59,922 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-9] select comment0_.comment_id as comment_1_0_, comment0_.author as author2_0_, comment0_.text as text3_0_, comment0_.topic_id as topic_id4_0_ from public.comment comment0_ where comment0_.topic_id=?
-2024-02-15 19:05:59,925 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-9] select topic0_.topic_id as topic_id1_1_0_, topic0_.author as author2_1_0_, topic0_.title as title3_1_0_, topic0_.user_id as user_id4_1_0_, user1_.user_id as user_id1_2_1_, user1_.user_login as user_log2_2_1_, user1_.user_password as user_pas3_2_1_ from public.topic topic0_ left outer join public.user user1_ on topic0_.user_id=user1_.user_id where topic0_.topic_id=?
-2024-02-15 19:06:12,388 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-10] Url: http://localhost:8080/topic/1/3. HTTP method: PUT. Signature: CommentController.updateComment 
-2024-02-15 19:06:12,391 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-10] select comment0_.comment_id as comment_1_0_0_, comment0_.author as author2_0_0_, comment0_.text as text3_0_0_, comment0_.topic_id as topic_id4_0_0_, topic1_.topic_id as topic_id1_1_1_, topic1_.author as author2_1_1_, topic1_.title as title3_1_1_, topic1_.user_id as user_id4_1_1_, user2_.user_id as user_id1_2_2_, user2_.user_login as user_log2_2_2_, user2_.user_password as user_pas3_2_2_ from public.comment comment0_ left outer join public.topic topic1_ on comment0_.topic_id=topic1_.topic_id left outer join public.user user2_ on topic1_.user_id=user2_.user_id where comment0_.comment_id=?
-2024-02-15 19:06:12,398 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-10] update public.comment set author=?, text=?, topic_id=? where comment_id=?
-2024-02-15 19:06:17,331 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-2] Url: http://localhost:8080/topic/1/comments. HTTP method: GET. Signature: CommentController.getComments 
-2024-02-15 19:06:17,332 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-2] select comment0_.comment_id as comment_1_0_, comment0_.author as author2_0_, comment0_.text as text3_0_, comment0_.topic_id as topic_id4_0_ from public.comment comment0_ where comment0_.topic_id=?
-2024-02-15 19:06:17,334 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-2] select topic0_.topic_id as topic_id1_1_0_, topic0_.author as author2_1_0_, topic0_.title as title3_1_0_, topic0_.user_id as user_id4_1_0_, user1_.user_id as user_id1_2_1_, user1_.user_login as user_log2_2_1_, user1_.user_password as user_pas3_2_1_ from public.topic topic0_ left outer join public.user user1_ on topic0_.user_id=user1_.user_id where topic0_.topic_id=?
-2024-02-15 19:45:35,595 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-1] Url: http://localhost:8080/topic/1/comments. HTTP method: GET. Signature: CommentController.getComments 
-2024-02-15 19:45:35,663 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-1] select comment0_.comment_id as comment_1_0_, comment0_.author as author2_0_, comment0_.text as text3_0_, comment0_.topic_id as topic_id4_0_ from public.comment comment0_ where comment0_.topic_id=?
-2024-02-15 19:45:35,679 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-1] select topic0_.topic_id as topic_id1_1_0_, topic0_.author as author2_1_0_, topic0_.title as title3_1_0_, topic0_.user_id as user_id4_1_0_, user1_.user_id as user_id1_2_1_, user1_.user_login as user_log2_2_1_, user1_.user_password as user_pas3_2_1_ from public.topic topic0_ left outer join public.user user1_ on topic0_.user_id=user1_.user_id where topic0_.topic_id=?
-2024-02-15 19:45:45,281 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-2] Url: http://localhost:8080/topic/1. HTTP method: POST. Signature: CommentController.saveComment 
-2024-02-15 19:45:45,292 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-2] select nextval ('user_sequence')
-2024-02-15 19:45:45,309 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-2] insert into public.comment (author, text, topic_id, comment_id) values (?, ?, ?, ?)
-2024-02-15 19:45:48,173 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-4] Url: http://localhost:8080/topic/1. HTTP method: POST. Signature: CommentController.saveComment 
-2024-02-15 19:45:48,176 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-4] insert into public.comment (author, text, topic_id, comment_id) values (?, ?, ?, ?)
-2024-02-15 19:45:48,803 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-5] Url: http://localhost:8080/topic/1. HTTP method: POST. Signature: CommentController.saveComment 
-2024-02-15 19:45:48,806 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-5] insert into public.comment (author, text, topic_id, comment_id) values (?, ?, ?, ?)
-2024-02-15 19:45:51,845 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-6] Url: http://localhost:8080/topic/1/comments. HTTP method: GET. Signature: CommentController.getComments 
-2024-02-15 19:45:51,846 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-6] select comment0_.comment_id as comment_1_0_, comment0_.author as author2_0_, comment0_.text as text3_0_, comment0_.topic_id as topic_id4_0_ from public.comment comment0_ where comment0_.topic_id=?
-2024-02-15 19:45:51,848 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-6] select topic0_.topic_id as topic_id1_1_0_, topic0_.author as author2_1_0_, topic0_.title as title3_1_0_, topic0_.user_id as user_id4_1_0_, user1_.user_id as user_id1_2_1_, user1_.user_login as user_log2_2_1_, user1_.user_password as user_pas3_2_1_ from public.topic topic0_ left outer join public.user user1_ on topic0_.user_id=user1_.user_id where topic0_.topic_id=?
-2024-02-15 19:46:01,281 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-7] Url: http://localhost:8080/topic/1/2. HTTP method: PUT. Signature: CommentController.updateComment 
-2024-02-15 19:46:01,285 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-7] select comment0_.comment_id as comment_1_0_0_, comment0_.author as author2_0_0_, comment0_.text as text3_0_0_, comment0_.topic_id as topic_id4_0_0_, topic1_.topic_id as topic_id1_1_1_, topic1_.author as author2_1_1_, topic1_.title as title3_1_1_, topic1_.user_id as user_id4_1_1_, user2_.user_id as user_id1_2_2_, user2_.user_login as user_log2_2_2_, user2_.user_password as user_pas3_2_2_ from public.comment comment0_ left outer join public.topic topic1_ on comment0_.topic_id=topic1_.topic_id left outer join public.user user2_ on topic1_.user_id=user2_.user_id where comment0_.comment_id=?
-2024-02-15 19:46:01,292 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-7] update public.comment set author=?, text=?, topic_id=? where comment_id=?
-2024-02-15 19:46:05,382 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-8] Url: http://localhost:8080/topic/1/comments. HTTP method: GET. Signature: CommentController.getComments 
-2024-02-15 19:46:05,383 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-8] select comment0_.comment_id as comment_1_0_, comment0_.author as author2_0_, comment0_.text as text3_0_, comment0_.topic_id as topic_id4_0_ from public.comment comment0_ where comment0_.topic_id=?
-2024-02-15 19:46:05,386 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-8] select topic0_.topic_id as topic_id1_1_0_, topic0_.author as author2_1_0_, topic0_.title as title3_1_0_, topic0_.user_id as user_id4_1_0_, user1_.user_id as user_id1_2_1_, user1_.user_login as user_log2_2_1_, user1_.user_password as user_pas3_2_1_ from public.topic topic0_ left outer join public.user user1_ on topic0_.user_id=user1_.user_id where topic0_.topic_id=?
+2024-02-23 04:37:53,958 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-2] Url: http://localhost:8080/topic/1. HTTP method: POST. Signature: CommentController.saveComment 
+2024-02-23 04:37:53,995 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-2] select nextval ('user_sequence')
+2024-02-23 04:37:54,012 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-2] insert into public.comment (author, text, topic_id, comment_id) values (?, ?, ?, ?)
+2024-02-23 04:37:54,021 ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper [http-nio-8080-exec-2] ERROR: insert or update on table "comment" violates foreign key constraint "comment_fk"
+  Подробности: Key (topic_id)=(1) is not present in table "topic".
+2024-02-23 04:37:54,030 ERROR org.apache.juli.logging.DirectJDKLog [http-nio-8080-exec-2] Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is org.springframework.dao.DataIntegrityViolationException: could not execute statement; SQL [n/a]; constraint [comment_fk]; nested exception is org.hibernate.exception.ConstraintViolationException: could not execute statement] with root cause
+org.postgresql.util.PSQLException: ERROR: insert or update on table "comment" violates foreign key constraint "comment_fk"
+  Подробности: Key (topic_id)=(1) is not present in table "topic".
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2713)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2401)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:368)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:498)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:415)
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:190)
+	at org.postgresql.jdbc.PgPreparedStatement.executeUpdate(PgPreparedStatement.java:152)
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeUpdate(ProxyPreparedStatement.java:61)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeUpdate(HikariProxyPreparedStatement.java)
+	at org.hibernate.engine.jdbc.internal.ResultSetReturnImpl.executeUpdate(ResultSetReturnImpl.java:197)
+	at org.hibernate.engine.jdbc.batch.internal.NonBatchingBatch.addToBatch(NonBatchingBatch.java:46)
+	at org.hibernate.persister.entity.AbstractEntityPersister.insert(AbstractEntityPersister.java:3375)
+	at org.hibernate.persister.entity.AbstractEntityPersister.insert(AbstractEntityPersister.java:3937)
+	at org.hibernate.action.internal.EntityInsertAction.execute(EntityInsertAction.java:107)
+	at org.hibernate.engine.spi.ActionQueue.executeActions(ActionQueue.java:604)
+	at org.hibernate.engine.spi.ActionQueue.lambda$executeActions$1(ActionQueue.java:478)
+	at java.base/java.util.LinkedHashMap.forEach(LinkedHashMap.java:729)
+	at org.hibernate.engine.spi.ActionQueue.executeActions(ActionQueue.java:475)
+	at org.hibernate.event.internal.AbstractFlushingEventListener.performExecutions(AbstractFlushingEventListener.java:344)
+	at org.hibernate.event.internal.DefaultFlushEventListener.onFlush(DefaultFlushEventListener.java:40)
+	at org.hibernate.event.service.internal.EventListenerGroupImpl.fireEventOnEachListener(EventListenerGroupImpl.java:107)
+	at org.hibernate.internal.SessionImpl.doFlush(SessionImpl.java:1407)
+	at org.hibernate.internal.SessionImpl.managedFlush(SessionImpl.java:489)
+	at org.hibernate.internal.SessionImpl.flushBeforeTransactionCompletion(SessionImpl.java:3303)
+	at org.hibernate.internal.SessionImpl.beforeTransactionCompletion(SessionImpl.java:2438)
+	at org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl.beforeTransactionCompletion(JdbcCoordinatorImpl.java:449)
+	at org.hibernate.resource.transaction.backend.jdbc.internal.JdbcResourceLocalTransactionCoordinatorImpl.beforeCompletionCallback(JdbcResourceLocalTransactionCoordinatorImpl.java:183)
+	at org.hibernate.resource.transaction.backend.jdbc.internal.JdbcResourceLocalTransactionCoordinatorImpl.access$300(JdbcResourceLocalTransactionCoordinatorImpl.java:40)
+	at org.hibernate.resource.transaction.backend.jdbc.internal.JdbcResourceLocalTransactionCoordinatorImpl$TransactionDriverControlImpl.commit(JdbcResourceLocalTransactionCoordinatorImpl.java:281)
+	at org.hibernate.engine.transaction.internal.TransactionImpl.commit(TransactionImpl.java:101)
+	at org.springframework.orm.jpa.JpaTransactionManager.doCommit(JpaTransactionManager.java:562)
+	at org.springframework.transaction.support.AbstractPlatformTransactionManager.processCommit(AbstractPlatformTransactionManager.java:743)
+	at org.springframework.transaction.support.AbstractPlatformTransactionManager.commit(AbstractPlatformTransactionManager.java:711)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.commitTransactionAfterReturning(TransactionAspectSupport.java:654)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:407)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:137)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.data.jpa.repository.support.CrudMethodMetadataPostProcessor$CrudMethodMetadataPopulatingMethodInterceptor.invoke(CrudMethodMetadataPostProcessor.java:174)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:97)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:241)
+	at jdk.proxy2/jdk.proxy2.$Proxy131.save(Unknown Source)
+	at com.example.demo.services.CommentService.lambda$saveComment$3(CommentService.java:48)
+	at java.base/java.util.Optional.map(Optional.java:260)
+	at com.example.demo.services.CommentService.saveComment(CommentService.java:45)
+	at com.example.demo.controller.CommentController.saveComment(CommentController.java:36)
+	at com.example.demo.controller.CommentController$$FastClassBySpringCGLIB$$22d089e3.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:793)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:763)
+	at org.springframework.aop.framework.adapter.MethodBeforeAdviceInterceptor.invoke(MethodBeforeAdviceInterceptor.java:58)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:763)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:97)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:763)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:708)
+	at com.example.demo.controller.CommentController$$EnhancerBySpringCGLIB$$ae130be5.saveComment(<generated>)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:205)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:150)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:808)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1072)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:965)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:909)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:555)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:623)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:209)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:481)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:130)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:390)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:926)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1791)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:1589)
+2024-02-23 04:38:17,691 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-4] Url: http://localhost:8080/topic. HTTP method: POST. Signature: TopicController.saveTopic 
+2024-02-23 04:38:17,698 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-4] select nextval ('user_sequence')
+2024-02-23 04:38:17,700 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-4] insert into public.topic (author, title, user_id, topic_id) values (?, ?, ?, ?)
+2024-02-23 04:38:19,944 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-5] Url: http://localhost:8080/topic/1. HTTP method: POST. Signature: CommentController.saveComment 
+2024-02-23 04:38:19,946 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-5] select nextval ('user_sequence')
+2024-02-23 04:38:19,947 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-5] insert into public.comment (author, text, topic_id, comment_id) values (?, ?, ?, ?)
+2024-02-23 04:38:19,948 ERROR org.hibernate.engine.jdbc.spi.SqlExceptionHelper [http-nio-8080-exec-5] ERROR: insert or update on table "comment" violates foreign key constraint "comment_fk"
+  Подробности: Key (topic_id)=(1) is not present in table "topic".
+2024-02-23 04:38:19,949 ERROR org.apache.juli.logging.DirectJDKLog [http-nio-8080-exec-5] Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is org.springframework.dao.DataIntegrityViolationException: could not execute statement; SQL [n/a]; constraint [comment_fk]; nested exception is org.hibernate.exception.ConstraintViolationException: could not execute statement] with root cause
+org.postgresql.util.PSQLException: ERROR: insert or update on table "comment" violates foreign key constraint "comment_fk"
+  Подробности: Key (topic_id)=(1) is not present in table "topic".
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2713)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2401)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:368)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:498)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:415)
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:190)
+	at org.postgresql.jdbc.PgPreparedStatement.executeUpdate(PgPreparedStatement.java:152)
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeUpdate(ProxyPreparedStatement.java:61)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeUpdate(HikariProxyPreparedStatement.java)
+	at org.hibernate.engine.jdbc.internal.ResultSetReturnImpl.executeUpdate(ResultSetReturnImpl.java:197)
+	at org.hibernate.engine.jdbc.batch.internal.NonBatchingBatch.addToBatch(NonBatchingBatch.java:46)
+	at org.hibernate.persister.entity.AbstractEntityPersister.insert(AbstractEntityPersister.java:3375)
+	at org.hibernate.persister.entity.AbstractEntityPersister.insert(AbstractEntityPersister.java:3937)
+	at org.hibernate.action.internal.EntityInsertAction.execute(EntityInsertAction.java:107)
+	at org.hibernate.engine.spi.ActionQueue.executeActions(ActionQueue.java:604)
+	at org.hibernate.engine.spi.ActionQueue.lambda$executeActions$1(ActionQueue.java:478)
+	at java.base/java.util.LinkedHashMap.forEach(LinkedHashMap.java:729)
+	at org.hibernate.engine.spi.ActionQueue.executeActions(ActionQueue.java:475)
+	at org.hibernate.event.internal.AbstractFlushingEventListener.performExecutions(AbstractFlushingEventListener.java:344)
+	at org.hibernate.event.internal.DefaultFlushEventListener.onFlush(DefaultFlushEventListener.java:40)
+	at org.hibernate.event.service.internal.EventListenerGroupImpl.fireEventOnEachListener(EventListenerGroupImpl.java:107)
+	at org.hibernate.internal.SessionImpl.doFlush(SessionImpl.java:1407)
+	at org.hibernate.internal.SessionImpl.managedFlush(SessionImpl.java:489)
+	at org.hibernate.internal.SessionImpl.flushBeforeTransactionCompletion(SessionImpl.java:3303)
+	at org.hibernate.internal.SessionImpl.beforeTransactionCompletion(SessionImpl.java:2438)
+	at org.hibernate.engine.jdbc.internal.JdbcCoordinatorImpl.beforeTransactionCompletion(JdbcCoordinatorImpl.java:449)
+	at org.hibernate.resource.transaction.backend.jdbc.internal.JdbcResourceLocalTransactionCoordinatorImpl.beforeCompletionCallback(JdbcResourceLocalTransactionCoordinatorImpl.java:183)
+	at org.hibernate.resource.transaction.backend.jdbc.internal.JdbcResourceLocalTransactionCoordinatorImpl.access$300(JdbcResourceLocalTransactionCoordinatorImpl.java:40)
+	at org.hibernate.resource.transaction.backend.jdbc.internal.JdbcResourceLocalTransactionCoordinatorImpl$TransactionDriverControlImpl.commit(JdbcResourceLocalTransactionCoordinatorImpl.java:281)
+	at org.hibernate.engine.transaction.internal.TransactionImpl.commit(TransactionImpl.java:101)
+	at org.springframework.orm.jpa.JpaTransactionManager.doCommit(JpaTransactionManager.java:562)
+	at org.springframework.transaction.support.AbstractPlatformTransactionManager.processCommit(AbstractPlatformTransactionManager.java:743)
+	at org.springframework.transaction.support.AbstractPlatformTransactionManager.commit(AbstractPlatformTransactionManager.java:711)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.commitTransactionAfterReturning(TransactionAspectSupport.java:654)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:407)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:137)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.data.jpa.repository.support.CrudMethodMetadataPostProcessor$CrudMethodMetadataPopulatingMethodInterceptor.invoke(CrudMethodMetadataPostProcessor.java:174)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:97)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:241)
+	at jdk.proxy2/jdk.proxy2.$Proxy131.save(Unknown Source)
+	at com.example.demo.services.CommentService.lambda$saveComment$3(CommentService.java:48)
+	at java.base/java.util.Optional.map(Optional.java:260)
+	at com.example.demo.services.CommentService.saveComment(CommentService.java:45)
+	at com.example.demo.controller.CommentController.saveComment(CommentController.java:36)
+	at com.example.demo.controller.CommentController$$FastClassBySpringCGLIB$$22d089e3.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:793)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:763)
+	at org.springframework.aop.framework.adapter.MethodBeforeAdviceInterceptor.invoke(MethodBeforeAdviceInterceptor.java:58)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:763)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:97)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:763)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:708)
+	at com.example.demo.controller.CommentController$$EnhancerBySpringCGLIB$$ae130be5.saveComment(<generated>)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:205)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:150)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:808)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1072)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:965)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:909)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:555)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:623)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:209)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:51)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:117)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:178)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:153)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:167)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:90)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:481)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:130)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:93)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:74)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:343)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:390)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:926)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1791)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.base/java.lang.Thread.run(Thread.java:1589)
+2024-02-23 04:38:40,738 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-7] Url: http://localhost:8080/topic/2. HTTP method: POST. Signature: CommentController.saveComment 
+2024-02-23 04:38:40,741 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-7] insert into public.comment (author, text, topic_id, comment_id) values (?, ?, ?, ?)
+2024-02-23 04:38:43,174 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-8] Url: http://localhost:8080/topic/2/comments. HTTP method: GET. Signature: CommentController.getComments 
+2024-02-23 04:38:43,233 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-8] select comment0_.comment_id as comment_1_0_, comment0_.author as author2_0_, comment0_.text as text3_0_, comment0_.topic_id as topic_id4_0_ from public.comment comment0_ where comment0_.topic_id=?
+2024-02-23 04:38:43,240 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-8] select topic0_.topic_id as topic_id1_1_0_, topic0_.author as author2_1_0_, topic0_.title as title3_1_0_, topic0_.user_id as user_id4_1_0_, user1_.user_id as user_id1_2_1_, user1_.user_login as user_log2_2_1_, user1_.user_password as user_pas3_2_1_ from public.topic topic0_ left outer join public.user user1_ on topic0_.user_id=user1_.user_id where topic0_.topic_id=?
+2024-02-23 05:23:52,557 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-2] Url: http://localhost:8080/topic/2/comments. HTTP method: GET. Signature: CommentController.getComments 
+2024-02-23 05:23:52,619 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-2] select comment0_.comment_id as comment_1_0_, comment0_.author as author2_0_, comment0_.text as text3_0_, comment0_.topic_id as topic_id4_0_ from public.comment comment0_ where comment0_.topic_id=?
+2024-02-23 05:23:52,630 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-2] select topic0_.topic_id as topic_id1_1_0_, topic0_.author as author2_1_0_, topic0_.title as title3_1_0_, topic0_.user_id as user_id4_1_0_, user1_.user_id as user_id1_2_1_, user1_.user_login as user_log2_2_1_, user1_.user_password as user_pas3_2_1_ from public.topic topic0_ left outer join public.user user1_ on topic0_.user_id=user1_.user_id where topic0_.topic_id=?
+2024-02-23 05:23:55,394 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-3] Url: http://localhost:8080/topic. HTTP method: POST. Signature: TopicController.saveTopic 
+2024-02-23 05:23:55,408 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-3] select nextval ('user_sequence')
+2024-02-23 05:23:55,421 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-3] insert into public.topic (author, title, user_id, topic_id) values (?, ?, ?, ?)
+2024-02-23 05:23:56,216 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-5] Url: http://localhost:8080/topic. HTTP method: POST. Signature: TopicController.saveTopic 
+2024-02-23 05:23:56,218 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-5] insert into public.topic (author, title, user_id, topic_id) values (?, ?, ?, ?)
+2024-02-23 05:23:56,900 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-4] Url: http://localhost:8080/topic. HTTP method: POST. Signature: TopicController.saveTopic 
+2024-02-23 05:23:56,902 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-4] insert into public.topic (author, title, user_id, topic_id) values (?, ?, ?, ?)
+2024-02-23 05:23:59,067 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-6] Url: http://localhost:8080/topics. HTTP method: GET. Signature: TopicController.getAllTopics 
+2024-02-23 05:23:59,072 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-6] select topic0_.topic_id as topic_id1_1_, topic0_.author as author2_1_, topic0_.title as title3_1_, topic0_.user_id as user_id4_1_ from public.topic topic0_
+2024-02-23 05:23:59,074 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-6] select user0_.user_id as user_id1_2_0_, user0_.user_login as user_log2_2_0_, user0_.user_password as user_pas3_2_0_ from public.user user0_ where user0_.user_id=?
+2024-02-23 17:30:44,238 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-1] Url: http://localhost:8080/topic. HTTP method: POST. Signature: TopicController.saveTopic 
+2024-02-23 17:30:44,272 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-1] select nextval ('user_sequence')
+2024-02-23 17:30:44,290 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-1] insert into public.topic (author, title, user_id, topic_id) values (?, ?, ?, ?)
+2024-02-23 17:30:50,791 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-3] Url: http://localhost:8080/topic/1. HTTP method: POST. Signature: CommentController.saveComment 
+2024-02-23 17:30:50,798 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-3] select nextval ('user_sequence')
+2024-02-23 17:30:50,799 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-3] insert into public.comment (author, text, topic_id, comment_id) values (?, ?, ?, ?)
+2024-02-23 17:30:51,501 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-4] Url: http://localhost:8080/topic/1. HTTP method: POST. Signature: CommentController.saveComment 
+2024-02-23 17:30:51,503 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-4] insert into public.comment (author, text, topic_id, comment_id) values (?, ?, ?, ?)
+2024-02-23 17:30:52,221 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-5] Url: http://localhost:8080/topic/1. HTTP method: POST. Signature: CommentController.saveComment 
+2024-02-23 17:30:52,223 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-5] insert into public.comment (author, text, topic_id, comment_id) values (?, ?, ?, ?)
+2024-02-23 17:30:52,821 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-6] Url: http://localhost:8080/topic/1. HTTP method: POST. Signature: CommentController.saveComment 
+2024-02-23 17:30:52,823 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-6] insert into public.comment (author, text, topic_id, comment_id) values (?, ?, ?, ?)
+2024-02-23 17:30:53,331 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-7] Url: http://localhost:8080/topic/1. HTTP method: POST. Signature: CommentController.saveComment 
+2024-02-23 17:30:53,333 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-7] insert into public.comment (author, text, topic_id, comment_id) values (?, ?, ?, ?)
+2024-02-23 17:30:54,784 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-8] Url: http://localhost:8080/topic/1. HTTP method: POST. Signature: CommentController.saveComment 
+2024-02-23 17:30:54,786 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-8] insert into public.comment (author, text, topic_id, comment_id) values (?, ?, ?, ?)
+2024-02-23 17:30:55,375 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-9] Url: http://localhost:8080/topic/1. HTTP method: POST. Signature: CommentController.saveComment 
+2024-02-23 17:30:55,377 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-9] insert into public.comment (author, text, topic_id, comment_id) values (?, ?, ?, ?)
+2024-02-23 17:30:55,939 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-10] Url: http://localhost:8080/topic/1. HTTP method: POST. Signature: CommentController.saveComment 
+2024-02-23 17:30:55,941 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-10] insert into public.comment (author, text, topic_id, comment_id) values (?, ?, ?, ?)
+2024-02-23 17:30:56,457 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-2] Url: http://localhost:8080/topic/1. HTTP method: POST. Signature: CommentController.saveComment 
+2024-02-23 17:30:56,459 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-2] insert into public.comment (author, text, topic_id, comment_id) values (?, ?, ?, ?)
+2024-02-23 17:30:56,914 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-1] Url: http://localhost:8080/topic/1. HTTP method: POST. Signature: CommentController.saveComment 
+2024-02-23 17:30:56,915 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-1] insert into public.comment (author, text, topic_id, comment_id) values (?, ?, ?, ?)
+2024-02-23 17:30:57,391 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-3] Url: http://localhost:8080/topic/1. HTTP method: POST. Signature: CommentController.saveComment 
+2024-02-23 17:30:57,392 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-3] insert into public.comment (author, text, topic_id, comment_id) values (?, ?, ?, ?)
+2024-02-23 17:30:57,880 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-4] Url: http://localhost:8080/topic/1. HTTP method: POST. Signature: CommentController.saveComment 
+2024-02-23 17:30:57,881 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-4] insert into public.comment (author, text, topic_id, comment_id) values (?, ?, ?, ?)
+2024-02-23 17:30:58,333 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-5] Url: http://localhost:8080/topic/1. HTTP method: POST. Signature: CommentController.saveComment 
+2024-02-23 17:30:58,334 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-5] insert into public.comment (author, text, topic_id, comment_id) values (?, ?, ?, ?)
+2024-02-23 17:30:58,856 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-6] Url: http://localhost:8080/topic/1. HTTP method: POST. Signature: CommentController.saveComment 
+2024-02-23 17:30:58,858 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-6] insert into public.comment (author, text, topic_id, comment_id) values (?, ?, ?, ?)
+2024-02-23 17:30:59,373 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-7] Url: http://localhost:8080/topic/1. HTTP method: POST. Signature: CommentController.saveComment 
+2024-02-23 17:30:59,376 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-7] insert into public.comment (author, text, topic_id, comment_id) values (?, ?, ?, ?)
+2024-02-23 17:30:59,926 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-8] Url: http://localhost:8080/topic/1. HTTP method: POST. Signature: CommentController.saveComment 
+2024-02-23 17:30:59,928 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-8] insert into public.comment (author, text, topic_id, comment_id) values (?, ?, ?, ?)
+2024-02-23 17:31:14,362 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-9] Url: http://localhost:8080/topic/1/comments. HTTP method: GET. Signature: CommentController.getComments 
+2024-02-23 17:31:14,424 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-9] select comment0_.comment_id as comment_1_0_, comment0_.author as author2_0_, comment0_.text as text3_0_, comment0_.topic_id as topic_id4_0_ from public.comment comment0_ where comment0_.topic_id=?
+2024-02-23 17:31:14,432 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-9] select topic0_.topic_id as topic_id1_1_0_, topic0_.author as author2_1_0_, topic0_.title as title3_1_0_, topic0_.user_id as user_id4_1_0_, user1_.user_id as user_id1_2_1_, user1_.user_login as user_log2_2_1_, user1_.user_password as user_pas3_2_1_ from public.topic topic0_ left outer join public.user user1_ on topic0_.user_id=user1_.user_id where topic0_.topic_id=?
+2024-02-23 17:37:17,612 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-1] Url: http://localhost:8080/topic/1/comments. HTTP method: GET. Signature: CommentController.getComments 
+2024-02-23 17:37:17,687 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-1] select comment0_.comment_id as comment_1_0_, comment0_.author as author2_0_, comment0_.text as text3_0_, comment0_.topic_id as topic_id4_0_ from public.comment comment0_ where comment0_.topic_id=?
+2024-02-23 17:37:17,698 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-1] select topic0_.topic_id as topic_id1_1_0_, topic0_.author as author2_1_0_, topic0_.title as title3_1_0_, topic0_.user_id as user_id4_1_0_, user1_.user_id as user_id1_2_1_, user1_.user_login as user_log2_2_1_, user1_.user_password as user_pas3_2_1_ from public.topic topic0_ left outer join public.user user1_ on topic0_.user_id=user1_.user_id where topic0_.topic_id=?
+2024-02-23 17:37:22,260 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-3] Url: http://localhost:8080/topic/1. HTTP method: POST. Signature: CommentController.saveComment 
+2024-02-23 17:37:22,270 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-3] select nextval ('user_sequence')
+2024-02-23 17:37:22,279 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-3] insert into public.comment (author, text, topic_id, comment_id) values (?, ?, ?, ?)
+2024-02-23 17:37:29,302 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-4] Url: http://localhost:8080/topic/1. HTTP method: POST. Signature: CommentController.saveComment 
+2024-02-23 17:37:29,304 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-4] insert into public.comment (author, text, topic_id, comment_id) values (?, ?, ?, ?)
+2024-02-23 17:37:40,731 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-5] Url: http://localhost:8080/topic. HTTP method: POST. Signature: TopicController.saveTopic 
+2024-02-23 17:37:40,739 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-5] select nextval ('user_sequence')
+2024-02-23 17:37:40,742 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-5] insert into public.topic (author, title, user_id, topic_id) values (?, ?, ?, ?)
+2024-02-23 17:37:41,429 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-6] Url: http://localhost:8080/topic. HTTP method: POST. Signature: TopicController.saveTopic 
+2024-02-23 17:37:41,431 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-6] insert into public.topic (author, title, user_id, topic_id) values (?, ?, ?, ?)
+2024-02-23 17:37:42,100 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-7] Url: http://localhost:8080/topic. HTTP method: POST. Signature: TopicController.saveTopic 
+2024-02-23 17:37:42,103 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-7] insert into public.topic (author, title, user_id, topic_id) values (?, ?, ?, ?)
+2024-02-23 17:37:42,696 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-8] Url: http://localhost:8080/topic. HTTP method: POST. Signature: TopicController.saveTopic 
+2024-02-23 17:37:42,698 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-8] insert into public.topic (author, title, user_id, topic_id) values (?, ?, ?, ?)
+2024-02-23 17:37:43,320 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-9] Url: http://localhost:8080/topic. HTTP method: POST. Signature: TopicController.saveTopic 
+2024-02-23 17:37:43,322 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-9] insert into public.topic (author, title, user_id, topic_id) values (?, ?, ?, ?)
+2024-02-23 17:37:43,911 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-10] Url: http://localhost:8080/topic. HTTP method: POST. Signature: TopicController.saveTopic 
+2024-02-23 17:37:43,913 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-10] insert into public.topic (author, title, user_id, topic_id) values (?, ?, ?, ?)
+2024-02-23 17:37:44,519 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-2] Url: http://localhost:8080/topic. HTTP method: POST. Signature: TopicController.saveTopic 
+2024-02-23 17:37:44,522 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-2] insert into public.topic (author, title, user_id, topic_id) values (?, ?, ?, ?)
+2024-02-23 17:37:45,156 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-1] Url: http://localhost:8080/topic. HTTP method: POST. Signature: TopicController.saveTopic 
+2024-02-23 17:37:45,158 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-1] insert into public.topic (author, title, user_id, topic_id) values (?, ?, ?, ?)
+2024-02-23 17:37:45,767 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-3] Url: http://localhost:8080/topic. HTTP method: POST. Signature: TopicController.saveTopic 
+2024-02-23 17:37:45,769 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-3] insert into public.topic (author, title, user_id, topic_id) values (?, ?, ?, ?)
+2024-02-23 17:37:47,549 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-4] Url: http://localhost:8080/topics. HTTP method: GET. Signature: TopicController.getAllTopics 
+2024-02-23 17:37:47,553 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-4] select topic0_.topic_id as topic_id1_1_, topic0_.author as author2_1_, topic0_.title as title3_1_, topic0_.user_id as user_id4_1_ from public.topic topic0_
+2024-02-23 17:37:47,554 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-4] select user0_.user_id as user_id1_2_0_, user0_.user_login as user_log2_2_0_, user0_.user_password as user_pas3_2_0_ from public.user user0_ where user0_.user_id=?
+2024-02-23 17:38:00,920 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-5] Url: http://localhost:8080/topic. HTTP method: POST. Signature: TopicController.saveTopic 
+2024-02-23 17:38:00,923 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-5] insert into public.topic (author, title, user_id, topic_id) values (?, ?, ?, ?)
+2024-02-23 17:38:01,505 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-6] Url: http://localhost:8080/topic. HTTP method: POST. Signature: TopicController.saveTopic 
+2024-02-23 17:38:01,507 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-6] insert into public.topic (author, title, user_id, topic_id) values (?, ?, ?, ?)
+2024-02-23 17:38:05,151 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-7] Url: http://localhost:8080/topics. HTTP method: GET. Signature: TopicController.getAllTopics 
+2024-02-23 17:38:05,153 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-7] select topic0_.topic_id as topic_id1_1_, topic0_.author as author2_1_, topic0_.title as title3_1_, topic0_.user_id as user_id4_1_ from public.topic topic0_
+2024-02-23 17:38:05,154 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-7] select user0_.user_id as user_id1_2_0_, user0_.user_login as user_log2_2_0_, user0_.user_password as user_pas3_2_0_ from public.user user0_ where user0_.user_id=?
+2024-02-23 17:38:21,488 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-8] Url: http://localhost:8080/topic/1/2. HTTP method: PUT. Signature: CommentController.updateComment 
+2024-02-23 17:38:21,492 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-8] select comment0_.comment_id as comment_1_0_0_, comment0_.author as author2_0_0_, comment0_.text as text3_0_0_, comment0_.topic_id as topic_id4_0_0_, topic1_.topic_id as topic_id1_1_1_, topic1_.author as author2_1_1_, topic1_.title as title3_1_1_, topic1_.user_id as user_id4_1_1_, user2_.user_id as user_id1_2_2_, user2_.user_login as user_log2_2_2_, user2_.user_password as user_pas3_2_2_ from public.comment comment0_ left outer join public.topic topic1_ on comment0_.topic_id=topic1_.topic_id left outer join public.user user2_ on topic1_.user_id=user2_.user_id where comment0_.comment_id=?
+2024-02-23 17:38:21,497 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-8] update public.comment set author=?, text=?, topic_id=? where comment_id=?
+2024-02-23 17:38:27,833 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-9] Url: http://localhost:8080/topic/1/2. HTTP method: DELETE. Signature: CommentController.deleteComment 
+2024-02-23 17:38:27,834 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-9] select comment0_.comment_id as comment_1_0_0_, comment0_.author as author2_0_0_, comment0_.text as text3_0_0_, comment0_.topic_id as topic_id4_0_0_, topic1_.topic_id as topic_id1_1_1_, topic1_.author as author2_1_1_, topic1_.title as title3_1_1_, topic1_.user_id as user_id4_1_1_, user2_.user_id as user_id1_2_2_, user2_.user_login as user_log2_2_2_, user2_.user_password as user_pas3_2_2_ from public.comment comment0_ left outer join public.topic topic1_ on comment0_.topic_id=topic1_.topic_id left outer join public.user user2_ on topic1_.user_id=user2_.user_id where comment0_.comment_id=?
+2024-02-23 17:38:27,839 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-9] delete from public.comment where comment_id=?
+2024-02-23 17:38:34,713 DEBUG com.example.demo.aspects.LoggingAspect [http-nio-8080-exec-10] Url: http://localhost:8080/topic/1/comments. HTTP method: GET. Signature: CommentController.getComments 
+2024-02-23 17:38:34,716 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-10] select comment0_.comment_id as comment_1_0_, comment0_.author as author2_0_, comment0_.text as text3_0_, comment0_.topic_id as topic_id4_0_ from public.comment comment0_ where comment0_.topic_id=?
+2024-02-23 17:38:34,718 DEBUG org.hibernate.engine.jdbc.spi.SqlStatementLogger [http-nio-8080-exec-10] select topic0_.topic_id as topic_id1_1_0_, topic0_.author as author2_1_0_, topic0_.title as title3_1_0_, topic0_.user_id as user_id4_1_0_, user1_.user_id as user_id1_2_1_, user1_.user_login as user_log2_2_1_, user1_.user_password as user_pas3_2_1_ from public.topic topic0_ left outer join public.user user1_ on topic0_.user_id=user1_.user_id where topic0_.topic_id=?

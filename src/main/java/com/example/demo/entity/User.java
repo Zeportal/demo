@@ -4,10 +4,9 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
-
+import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,11 +22,11 @@ public class User {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "userSeq")
     private Long userId;
 
-    @NotEmpty
+    @NotBlank
     @Column(nullable = false, length = 70)
     private String user_login;
 
-    @NotEmpty
+    @NotBlank
     @Column(nullable = false, length = 70)
     private String user_password;
 
