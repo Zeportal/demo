@@ -6,14 +6,19 @@ import com.example.demo.exceptions.ResourceNotFoundException;
 import com.example.demo.repos.TopicRepository;
 import com.example.demo.responseDto.ResponseTopicDto;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class TopicService {
 
+    @Value("${outputLimit}")
+    private int outputLimit;
 
     private final TopicRepository topicRepository;
 
@@ -29,6 +34,7 @@ public class TopicService {
         List<ResponseTopicDto> listOfResponseTopicDto = topicRepository.findAll().stream()
                 .map(topic -> modelMapper.map(topic, ResponseTopicDto.class))
                 .toList();
+        if (listOfResponseTopicDto.size()>outputLimit) return listOfResponseTopicDto.subList(0,outputLimit);
         if (listOfResponseTopicDto.isEmpty()) throw new ResourceNotFoundException("No topics found");
         else return listOfResponseTopicDto;
     }

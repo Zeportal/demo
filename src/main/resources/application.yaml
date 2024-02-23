@@ -17,3 +17,5 @@ spring:
       path: logs
 server:
   port: 8080
+
+  outputLimit: 10

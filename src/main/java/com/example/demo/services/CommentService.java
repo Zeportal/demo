@@ -6,13 +6,18 @@ import com.example.demo.exceptions.ResourceNotFoundException;
 import com.example.demo.repos.CommentRepository;
 import com.example.demo.responseDto.ResponseCommentDto;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class CommentService {
+    @Value("${outputLimit}")
+    private int outputLimit;
 
 
     private final CommentRepository commentRepository;
@@ -30,6 +35,7 @@ public class CommentService {
         List<ResponseCommentDto> listOfResponseCommentDto = commentRepository.findByTopicId(topicId).stream()
                 .map(comment -> modelMapper.map(comment, ResponseCommentDto.class))
                 .toList();
+        if (listOfResponseCommentDto.size()>outputLimit) return listOfResponseCommentDto.subList(0,outputLimit);
         if (listOfResponseCommentDto.isEmpty()) throw new ResourceNotFoundException("No comments found");
         else return listOfResponseCommentDto;
     }
