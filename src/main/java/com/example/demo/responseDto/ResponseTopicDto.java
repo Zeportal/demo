@@ -20,6 +20,6 @@ public class ResponseTopicDto {
     @NotBlank
     private String author;
 
-    private String userId;
+    private Long userId;
 
 }

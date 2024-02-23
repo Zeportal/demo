@@ -17,11 +17,17 @@ public class TopicDto {
     private String title;
     @NotBlank
     private String author;
-    private String userId;
+    private Long userId;
 
     public TopicDto(Long topicId, String author, String title) {
         this.topicId = topicId;
         this.title = title;
         this.author = author;
+    }
+
+    public TopicDto(String title, String author, Long userId) {
+        this.title = title;
+        this.author = author;
+        this.userId = userId;
     }
 }
