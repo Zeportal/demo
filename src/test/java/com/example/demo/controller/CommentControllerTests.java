@@ -58,13 +58,13 @@ public class CommentControllerTests {
         ResponseCommentDto commentTwo = new ResponseCommentDto(2L, "Petr", "second", 1L);
         ResponseCommentDto commentThree = new ResponseCommentDto(3L, "Alex", "third", 1L);
 
-        List<ResponseCommentDto> list = List.of(commentOne, commentTwo, commentThree);
+        List<ResponseCommentDto> responseCommentDtos = List.of(commentOne, commentTwo, commentThree);
         given(commentService.getComments(1L))
-                .willReturn(list);
+                .willReturn(responseCommentDtos);
         MockHttpServletResponse response = mockMvc.perform(get("/topic/1/comments"))
                 .andExpect(status().isOk())
                 .andReturn().getResponse();
-        assertThat(response.getContentAsString()).isEqualTo(responseCommentDtoListJacksonTester.write(list).getJson());
+        assertThat(response.getContentAsString()).isEqualTo(responseCommentDtoListJacksonTester.write(responseCommentDtos).getJson());
     }
 
     @Test

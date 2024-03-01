@@ -58,13 +58,13 @@ public class TopicControllerTests {
         ResponseTopicDto topicTwo = new ResponseTopicDto(2L, "Petr", "second", 1L);
         ResponseTopicDto topicThree = new ResponseTopicDto(3L, "Alex", "third", 1L);
 
-        List<ResponseTopicDto> list = List.of(topicOne, topicTwo, topicThree);
+        List<ResponseTopicDto> responseTopicDtos = List.of(topicOne, topicTwo, topicThree);
         given(topicService.getAllTopicsList())
-                .willReturn(list);
+                .willReturn(responseTopicDtos);
         MockHttpServletResponse response = mockMvc.perform(get("/topics"))
                 .andExpect(status().isOk())
                 .andReturn().getResponse();
-        assertThat(response.getContentAsString()).isEqualTo(responseTopicDtoListJacksonTester.write(list).getJson());
+        assertThat(response.getContentAsString()).isEqualTo(responseTopicDtoListJacksonTester.write(responseTopicDtos).getJson());
     }
 
     @Test

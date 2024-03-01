@@ -1,43 +1,40 @@
 package com.example.demo.services;
 
+import com.example.demo.client.ExternalValidationService;
 import com.example.demo.dto.CommentDto;
 import com.example.demo.entity.Comment;
 import com.example.demo.exceptions.ResourceNotFoundException;
+import com.example.demo.properties.YamlProperties;
 import com.example.demo.repos.CommentRepository;
 import com.example.demo.responseDto.ResponseCommentDto;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class CommentService {
-    @Value("${outputLimit}")
-    private int outputLimit;
-
-
+    private final RestTemplate restTemplate;
+    private final int startOfTheList = 0;
     private final CommentRepository commentRepository;
-
-
+    private final ExternalValidationService externalValidationService;
     private final ModelMapper modelMapper;
-
-    public CommentService(CommentRepository commentRepository, ModelMapper modelMapper) {
-        this.commentRepository = commentRepository;
-        this.modelMapper = modelMapper;
-    }
+    private final YamlProperties properties;
 
 
     public List<ResponseCommentDto> getComments(Long topicId) {
         List<ResponseCommentDto> listOfResponseCommentDto = commentRepository.findByTopicId(topicId).stream()
                 .map(comment -> modelMapper.map(comment, ResponseCommentDto.class))
                 .toList();
-        if (listOfResponseCommentDto.size()>outputLimit) return listOfResponseCommentDto.subList(0,outputLimit);
-        if (listOfResponseCommentDto.isEmpty()) throw new ResourceNotFoundException("No comments found");
-        else return listOfResponseCommentDto;
+        if (listOfResponseCommentDto.isEmpty()) {
+            throw new ResourceNotFoundException("No comments found");
+        }
+        return listOfResponseCommentDto.size() > properties.getOutputLimit() ? listOfResponseCommentDto.subList(startOfTheList, properties.getOutputLimit()) : listOfResponseCommentDto;
     }
 
     public ResponseCommentDto getCommentById(Long commentId) {
@@ -47,33 +44,47 @@ public class CommentService {
     }
 
     public ResponseCommentDto saveComment(CommentDto commentDto, Long topicId) {
-        return Optional.of(commentDto)
-                .map(dto -> {
-                    dto.setTopicId(topicId);
-                    Comment comment = modelMapper.map(dto, Comment.class);
-                    commentRepository.save(comment);
-                    return modelMapper.map(comment, ResponseCommentDto.class);
-                })
-                .orElseThrow(() -> new IllegalArgumentException("Invalid data provided"));
+        if (externalValidationService.validateComment(commentDto.getText(), commentDto.getAuthor(), topicId))
+            System.out.println("WORKING");
+        final String externalServiceUrl = "http://localhost:8090/topic/";
+        String text = commentDto.getText();
+        String author = commentDto.getAuthor();
+        String url = externalServiceUrl + topicId + "?text=" + text + "&author=" + author;
+        if (restTemplate.getForObject(url, Boolean.class)) System.out.println("REST WORKING");
+        return SaveCommentReturnCommentDto(topicId, commentDto);
     }
+
 
     public void deleteComment(Long commentId) {
         try {
             commentRepository.deleteById(commentId);
         } catch (Exception ex) {
-            throw new ResourceNotFoundException("Comment with id "+commentId+" not found");
+            throw new ResourceNotFoundException("Comment with id " + commentId + " not found");
         }
     }
 
     public ResponseCommentDto updateComment(Long commentId, CommentDto commentDto) {
         return commentRepository.findById(commentId)
                 .map(comment -> {
-                    comment.setAuthor(commentDto.getAuthor());
-                    comment.setText(commentDto.getText());
-                    commentRepository.save(comment);
-                    return modelMapper.map(comment, ResponseCommentDto.class);
+                    if (externalValidationService.validateComment(commentDto.getText(), commentDto.getAuthor(), comment.getTopicId()))
+                        System.out.println("WORKING");
+                    return UpdateCommentDto(commentDto, comment);
                 })
                 .orElseThrow(() -> new ResourceNotFoundException("Comment with id " + commentId + " not found"));
+    }
+
+    private ResponseCommentDto UpdateCommentDto(CommentDto commentDto, Comment comment) {
+        comment.setAuthor(commentDto.getAuthor());
+        comment.setText(commentDto.getText());
+        commentRepository.save(comment);
+        return modelMapper.map(comment, ResponseCommentDto.class);
+    }
+
+    private ResponseCommentDto SaveCommentReturnCommentDto(Long topicId, CommentDto dto) {
+        dto.setTopicId(topicId);
+        Comment comment = modelMapper.map(dto, Comment.class);
+        commentRepository.save(comment);
+        return modelMapper.map(comment, ResponseCommentDto.class);
     }
 
 }

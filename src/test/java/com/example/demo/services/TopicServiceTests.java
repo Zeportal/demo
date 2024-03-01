@@ -2,9 +2,10 @@ package com.example.demo.services;
 
 import com.example.demo.dto.TopicDto;
 import com.example.demo.entity.Topic;
+import com.example.demo.properties.YamlProperties;
 import com.example.demo.repos.TopicRepository;
-import com.example.demo.responseDto.ResponseCommentDto;
 import com.example.demo.responseDto.ResponseTopicDto;
+import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -27,6 +28,8 @@ public class TopicServiceTests {
     private TopicRepository repository;
     @Mock
     private ModelMapper modelMapper;
+    @Mock
+    private YamlProperties yamlProperties;
 
     @Test
     void testGetTopics() {
@@ -34,8 +37,8 @@ public class TopicServiceTests {
         Topic topicTwo = new Topic(2L, "Petr", "second");
         Topic topicThree = new Topic(3L, "Alex", "third");
 
-        List<Topic> list = List.of(topicOne, topicTwo, topicThree);
-        when(repository.findAll()).thenReturn(list);
+        List<Topic> topics = List.of(topicOne, topicTwo, topicThree);
+        when(repository.findAll()).thenReturn(topics);
 
         ResponseTopicDto responseTopicDtoOne = ResponseTopicDto.builder()
                 .topicId(1L)
@@ -56,9 +59,9 @@ public class TopicServiceTests {
         when(modelMapper.map(topicOne, ResponseTopicDto.class)).thenReturn(responseTopicDtoOne);
         when(modelMapper.map(topicTwo, ResponseTopicDto.class)).thenReturn(responseTopicDtoTwo);
         when(modelMapper.map(topicThree, ResponseTopicDto.class)).thenReturn(responseTopicDtoThree);
+        when(yamlProperties.getOutputLimit()).thenReturn(5);
         List<ResponseTopicDto> topicDtoList = service.getAllTopicsList();
-
-        assertEquals(list.size(), topicDtoList.size());
+        assertEquals(topics.size(), topicDtoList.size());
         verify(repository, times(1)).findAll();
     }
 

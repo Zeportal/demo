@@ -1,7 +1,9 @@
 package com.example.demo.services;
 
+import com.example.demo.client.ExternalValidationService;
 import com.example.demo.dto.CommentDto;
 import com.example.demo.entity.Comment;
+import com.example.demo.properties.YamlProperties;
 import com.example.demo.repos.CommentRepository;
 import com.example.demo.responseDto.ResponseCommentDto;
 import org.junit.jupiter.api.Test;
@@ -10,6 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,6 +20,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doNothing;
 
 @ExtendWith(MockitoExtension.class)
 public class CommentServiceTests {
@@ -26,6 +30,12 @@ public class CommentServiceTests {
     private CommentRepository repository;
     @Mock
     private ModelMapper modelMapper;
+    @Mock
+    private YamlProperties yamlProperties;
+    @Mock
+    private ExternalValidationService externalValidationService;
+    @Mock
+    private RestTemplate restTemplate;
 
     @Test
     void testGetComments() {
@@ -57,7 +67,9 @@ public class CommentServiceTests {
         when(modelMapper.map(commentOne, ResponseCommentDto.class)).thenReturn(responseCommentDtoOne);
         when(modelMapper.map(commentTwo, ResponseCommentDto.class)).thenReturn(responseCommentDtoTwo);
         when(modelMapper.map(commentThree, ResponseCommentDto.class)).thenReturn(responseCommentDtoThree);
+        when(yamlProperties.getOutputLimit()).thenReturn(5);
         List<ResponseCommentDto> commentDtoList = service.getComments(1L);
+
 
         assertEquals(list.size(), commentDtoList.size());
         verify(repository, times(1)).findByTopicId(1L);
@@ -91,6 +103,7 @@ public class CommentServiceTests {
         when(modelMapper.map(commentDto, Comment.class)).thenReturn(comment);
         when(repository.save(comment)).thenReturn(comment);
         when(modelMapper.map(comment, ResponseCommentDto.class)).thenReturn(responseCommentDto);
+        when(restTemplate.getForObject(anyString(),eq(Boolean.class))).thenReturn(true);
 
         ResponseCommentDto out = service.saveComment(commentDto, 1L);
 

@@ -18,4 +18,5 @@ spring:
 server:
   port: 8080
 
-  outputLimit: 10
+properties:
+  outputLimit: 5
