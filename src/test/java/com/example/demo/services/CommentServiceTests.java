@@ -1,6 +1,9 @@
 package com.example.demo.services;
 
+import com.example.demo.client.ExternalValidationService;
+import com.example.demo.dto.CommentDto;
 import com.example.demo.entity.Comment;
+import com.example.demo.properties.YamlProperties;
 import com.example.demo.repos.CommentRepository;
 import com.example.demo.responseDto.ResponseCommentDto;
 import org.junit.jupiter.api.Test;
@@ -9,48 +12,130 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
+import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doNothing;
 
 @ExtendWith(MockitoExtension.class)
 public class CommentServiceTests {
     @InjectMocks
-    CommentService service;
+    private CommentService service;
     @Mock
-    CommentRepository repository;
+    private CommentRepository repository;
     @Mock
-    ModelMapper modelMapper;
+    private ModelMapper modelMapper;
+    @Mock
+    private YamlProperties yamlProperties;
+    @Mock
+    private ExternalValidationService externalValidationService;
+    @Mock
+    private RestTemplate restTemplate;
+
     @Test
     void testGetComments() {
-        List<Comment> list = new ArrayList<>();
-        Comment commentOne = new Comment((long) 1,"asdd", "dddasd",(long) 1);
-        Comment commentTwo = new Comment((long) 2,"Petr","second", (long) 1);
-        Comment commentThree = new Comment((long) 3,"Alex","third", (long) 1);
+        Comment commentOne = new Comment(1L, "Help", "Me", 1L);
+        Comment commentTwo = new Comment(2L, "Petr", "second", 1L);
+        Comment commentThree = new Comment(3L, "Alex", "third", 1L);
 
-        list.add(commentOne);
-        list.add(commentTwo);
-        list.add(commentThree);
-        System.out.println(commentOne.getTopicId());
-        when(repository.findByTopicId((long) 1)).thenReturn(list);
+        List<Comment> list = List.of(commentOne, commentTwo, commentThree);
+        when(repository.findByTopicId(1L)).thenReturn(list);
 
-        List<ResponseCommentDto> commentDtoList = service.getComments((long)1);
+        ResponseCommentDto responseCommentDtoOne = ResponseCommentDto.builder()
+                .commentId(1L)
+                .author("Help")
+                .text("Me")
+                .topicId(1L)
+                .build();
+        ResponseCommentDto responseCommentDtoTwo = ResponseCommentDto.builder()
+                .commentId(2L)
+                .author("Petr")
+                .text("Second")
+                .topicId(1L)
+                .build();
+        ResponseCommentDto responseCommentDtoThree = ResponseCommentDto.builder()
+                .commentId(3L)
+                .author("Alex")
+                .text("Third")
+                .topicId(1L)
+                .build();
+        when(modelMapper.map(commentOne, ResponseCommentDto.class)).thenReturn(responseCommentDtoOne);
+        when(modelMapper.map(commentTwo, ResponseCommentDto.class)).thenReturn(responseCommentDtoTwo);
+        when(modelMapper.map(commentThree, ResponseCommentDto.class)).thenReturn(responseCommentDtoThree);
+        when(yamlProperties.getOutputLimit()).thenReturn(5);
+        List<ResponseCommentDto> commentDtoList = service.getComments(1L);
 
-        assertEquals(3,commentDtoList.size());
-        verify(repository, times(1)).findByTopicId((long) 1);
+
+        assertEquals(list.size(), commentDtoList.size());
+        verify(repository, times(1)).findByTopicId(1L);
     }
+
     @Test
     void testGetCommentById() {
-        List<Comment> list = new ArrayList<>();
-        Comment comment = new Comment((long) 1,"ASdss", "asdad", (long) 1);
-        list.add(comment);
-        System.out.println(Optional.of(comment));
-        when(repository.findById((long) 1)).thenReturn(Optional.of(comment));
-        ResponseCommentDto responseCommentDto = service.getCommentById((long) 1);
-        verify(repository, times(1)).findById((long) 1);
+        Comment comment = new Comment(1L, "Stealer", "Im here", 1L);
+        when(repository.findById(1L)).thenReturn(Optional.of(comment));
+        ResponseCommentDto responseCommentDtoOne = ResponseCommentDto.builder()
+                .commentId(1L)
+                .author("Stealer")
+                .text("Im here")
+                .topicId(1L)
+                .build();
+        when(modelMapper.map(comment, ResponseCommentDto.class)).thenReturn(responseCommentDtoOne);
+
+        ResponseCommentDto responseCommentDto = service.getCommentById(1L);
+
+        assertEquals(responseCommentDto.getText(), comment.getText());
+        verify(repository, times(1)).findById(1L);
+        verify(modelMapper, times(1)).map(comment, ResponseCommentDto.class);
+    }
+
+    @Test
+    void testSaveComment() {
+        Comment comment = new Comment(1L, "Stealer", "Im here", 1L);
+        CommentDto commentDto = new CommentDto(1L, "Stealer", "Im here", 1L);
+        ResponseCommentDto responseCommentDto = new ResponseCommentDto(1L, "Stealer", "Im here", 1L);
+
+        when(modelMapper.map(commentDto, Comment.class)).thenReturn(comment);
+        when(repository.save(comment)).thenReturn(comment);
+        when(modelMapper.map(comment, ResponseCommentDto.class)).thenReturn(responseCommentDto);
+        when(restTemplate.getForObject(anyString(),eq(Boolean.class))).thenReturn(true);
+
+        ResponseCommentDto out = service.saveComment(commentDto, 1L);
+
+        assertEquals(out.getText(), commentDto.getText());
+        verify(modelMapper, times(1)).map(commentDto, Comment.class);
+        verify(repository, times(1)).save(comment);
+        verify(modelMapper, times(1)).map(comment, ResponseCommentDto.class);
+
+    }
+
+    @Test
+    void testDeleteComment() {
+        assertDoesNotThrow(() -> service.deleteComment(1L));
+        verify(repository, times(1)).deleteById(1L);
+    }
+
+    @Test
+    void updateComment() {
+        Comment comment = new Comment(1L, "pre", "pres text", 1L);
+        CommentDto commentDto = new CommentDto(1L, "after", "afters text", 1L);
+        ResponseCommentDto responseCommentDto = new ResponseCommentDto(1L, "after", "afters text", 1L);
+        when(repository.findById(1L)).thenReturn(Optional.of(comment));
+        comment.setText("after");
+        comment.setAuthor("afters text");
+        when(repository.save(comment)).thenReturn(comment);
+        when(modelMapper.map(comment, ResponseCommentDto.class)).thenReturn(responseCommentDto);
+
+        ResponseCommentDto out = service.updateComment(1L, commentDto);
+
+        assertEquals(out.getText(), commentDto.getText());
+        verify(repository, times(1)).findById(1L);
+        verify(repository, times(1)).save(comment);
+        verify(modelMapper, times(1)).map(comment, ResponseCommentDto.class);
     }
 }
