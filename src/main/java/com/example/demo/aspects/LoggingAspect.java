@@ -24,7 +24,7 @@ public class LoggingAspect {
         String method = request.getMethod();
         String methodName = joinPoint.getSignature().getName();
         String className = joinPoint.getTarget().getClass().getSimpleName();
-        logger.debug("Url: {}. HTTP method: {}. Signature: {}.{} ",url,method,className,methodName);
+        logger.debug("Url: {}. HTTP method: {}. Signature: {}.{} ", url, method, className, methodName);
     }
 
 }
