@@ -1,12 +1,12 @@
-package com.example.demo.properties;
+package com.example.demo.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 @Component
-@ConfigurationProperties(prefix = "properties")
+@ConfigurationProperties(prefix = "constraints")
 @Data
-public class YamlProperties {
+public class InternalVariables {
     private int outputLimit;
 }

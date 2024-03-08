@@ -2,10 +2,9 @@ package com.example.demo.services;
 
 import com.example.demo.dto.TopicDto;
 import com.example.demo.entity.Topic;
-import com.example.demo.properties.YamlProperties;
+import com.example.demo.config.InternalVariables;
 import com.example.demo.repos.TopicRepository;
 import com.example.demo.responseDto.ResponseTopicDto;
-import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -29,7 +28,7 @@ public class TopicServiceTests {
     @Mock
     private ModelMapper modelMapper;
     @Mock
-    private YamlProperties yamlProperties;
+    private InternalVariables internalVariables;
 
     @Test
     void testGetTopics() {
@@ -59,7 +58,7 @@ public class TopicServiceTests {
         when(modelMapper.map(topicOne, ResponseTopicDto.class)).thenReturn(responseTopicDtoOne);
         when(modelMapper.map(topicTwo, ResponseTopicDto.class)).thenReturn(responseTopicDtoTwo);
         when(modelMapper.map(topicThree, ResponseTopicDto.class)).thenReturn(responseTopicDtoThree);
-        when(yamlProperties.getOutputLimit()).thenReturn(5);
+        when(internalVariables.getOutputLimit()).thenReturn(5);
         List<ResponseTopicDto> topicDtoList = service.getAllTopicsList();
         assertEquals(topics.size(), topicDtoList.size());
         verify(repository, times(1)).findAll();

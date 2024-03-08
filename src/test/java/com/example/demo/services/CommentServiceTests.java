@@ -1,9 +1,9 @@
 package com.example.demo.services;
 
-import com.example.demo.client.ExternalValidationService;
+import com.example.demo.client.ExternalValidationClient;
+import com.example.demo.config.InternalVariables;
 import com.example.demo.dto.CommentDto;
 import com.example.demo.entity.Comment;
-import com.example.demo.properties.YamlProperties;
 import com.example.demo.repos.CommentRepository;
 import com.example.demo.responseDto.ResponseCommentDto;
 import org.junit.jupiter.api.Test;
@@ -20,7 +20,6 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.doNothing;
 
 @ExtendWith(MockitoExtension.class)
 public class CommentServiceTests {
@@ -31,9 +30,9 @@ public class CommentServiceTests {
     @Mock
     private ModelMapper modelMapper;
     @Mock
-    private YamlProperties yamlProperties;
+    private InternalVariables internalVariables;
     @Mock
-    private ExternalValidationService externalValidationService;
+    private ExternalValidationClient externalValidationClient;
     @Mock
     private RestTemplate restTemplate;
 
@@ -67,7 +66,7 @@ public class CommentServiceTests {
         when(modelMapper.map(commentOne, ResponseCommentDto.class)).thenReturn(responseCommentDtoOne);
         when(modelMapper.map(commentTwo, ResponseCommentDto.class)).thenReturn(responseCommentDtoTwo);
         when(modelMapper.map(commentThree, ResponseCommentDto.class)).thenReturn(responseCommentDtoThree);
-        when(yamlProperties.getOutputLimit()).thenReturn(5);
+        when(internalVariables.getOutputLimit()).thenReturn(5);
         List<ResponseCommentDto> commentDtoList = service.getComments(1L);
 
 
@@ -103,7 +102,7 @@ public class CommentServiceTests {
         when(modelMapper.map(commentDto, Comment.class)).thenReturn(comment);
         when(repository.save(comment)).thenReturn(comment);
         when(modelMapper.map(comment, ResponseCommentDto.class)).thenReturn(responseCommentDto);
-        when(restTemplate.getForObject(anyString(),eq(Boolean.class))).thenReturn(true);
+        when(restTemplate.getForObject(anyString(), eq(Boolean.class))).thenReturn(true);
 
         ResponseCommentDto out = service.saveComment(commentDto, 1L);
 

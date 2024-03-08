@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient(name = "external-validation-service", url = "http://localhost:8090")
-public interface ExternalValidationService {
+public interface ExternalValidationClient {
     @GetMapping("/topic/{topicId}")
     boolean validateComment(@RequestParam("text") String text, @RequestParam("author") String author, @PathVariable Long topicId);
 }
