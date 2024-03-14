@@ -31,6 +31,15 @@ public class TopicService {
         }
         return listOfResponseTopicDto.size() > properties.getOutputLimit() ? listOfResponseTopicDto.subList(LIST_STARTING_POSITION, properties.getOutputLimit()) : listOfResponseTopicDto;
     }
+    public List<ResponseTopicDto> getTopicsByCommentTextContaining(String searchRequest) {
+        List<ResponseTopicDto> listOfResponseTopicDto = topicRepository.findTopicsByCommentTextContaining(searchRequest).stream()
+                .map(topic -> modelMapper.map(topic,ResponseTopicDto.class))
+                .toList();
+        if (listOfResponseTopicDto.isEmpty()) {
+            throw new ResourceNotFoundException("No topics with such search request found");
+        }
+        return listOfResponseTopicDto;
+    }
 
     public ResponseTopicDto findById(Long topicId) {
         return topicRepository.findById(topicId)
@@ -70,5 +79,4 @@ public class TopicService {
         topicRepository.save(topic);
         return modelMapper.map(topic, ResponseTopicDto.class);
     }
-
 }

@@ -4,6 +4,8 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -30,6 +32,11 @@ public class Topic {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private User user;
+
+    @OneToMany(mappedBy = "topic")
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    private List<Comment> comments = new ArrayList<>();
 
     public Topic(Long topicId, String author, String title) {
         this.topicId = topicId;

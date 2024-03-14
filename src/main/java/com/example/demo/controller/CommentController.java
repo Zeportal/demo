@@ -30,6 +30,14 @@ public class CommentController {
     public ResponseCommentDto getCommentById(@PathVariable Long commentId) {
         return commentService.getCommentById(commentId);
     }
+    @GetMapping(value = "/comments", params = "topicAuthor")
+    public List<ResponseCommentDto> getCommentsByTopicAuthor(@RequestParam String topicAuthor) {
+        return commentService.getCommentsByTopicAuthor(topicAuthor);
+    }
+    @GetMapping(value = "/comments", params = "searchRequest")
+    public List<ResponseCommentDto> getCommentsByTextContaining(@RequestParam String searchRequest) {
+        return commentService.getCommentsByTextContaining(searchRequest);
+    }
 
     @PostMapping("/topic/{topicId}")
     public ResponseCommentDto saveComment(@RequestBody @Valid CommentDto commentDto, @PathVariable Long topicId) {

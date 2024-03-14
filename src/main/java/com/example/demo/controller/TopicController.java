@@ -24,6 +24,10 @@ public class TopicController {
         return topicService.getAllTopicsList();
     }
 
+    @GetMapping(value = "/topics",params = "searchRequest")
+    public List<ResponseTopicDto> getTopicsByCommentTextContaining(@RequestParam String searchRequest) {
+        return topicService.getTopicsByCommentTextContaining(searchRequest);
+    }
 
     @GetMapping("/topic/{topicId}")
     public ResponseTopicDto getTopicById(@PathVariable Long topicId) {

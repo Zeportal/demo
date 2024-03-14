@@ -43,6 +43,25 @@ public class CommentService {
                 .orElseThrow(() -> new ResourceNotFoundException("Comment with id " + commentId + " not found"));
     }
 
+    public List<ResponseCommentDto> getCommentsByTopicAuthor(String topicAuthor) {
+        List<ResponseCommentDto> listOfResponseCommentDto = commentRepository.findAllCommentsByTopicAuthor(topicAuthor).stream()
+                .map(comment -> modelMapper.map(comment,ResponseCommentDto.class))
+                .toList();
+        if (listOfResponseCommentDto.isEmpty()) {
+            throw new ResourceNotFoundException("No comments found");
+        }
+        return listOfResponseCommentDto.size() > properties.getOutputLimit() ? listOfResponseCommentDto.subList(LIST_STARTING_POSITION, properties.getOutputLimit()) : listOfResponseCommentDto;
+    }
+    public List<ResponseCommentDto> getCommentsByTextContaining(String searchRequest) {
+        List<ResponseCommentDto> listOfResponseCommentDto = commentRepository.findCommentsByTextContaining(searchRequest).stream()
+                .map(comment -> modelMapper.map(comment,ResponseCommentDto.class))
+                .toList();
+        if (listOfResponseCommentDto.isEmpty()) {
+            throw new ResourceNotFoundException("No comments with such text found");
+        }
+        return listOfResponseCommentDto;
+    }
+
     public ResponseCommentDto saveComment(CommentDto commentDto, Long topicId) {
         if (externalValidationClient.validateComment(commentDto.getText(), commentDto.getAuthor(), topicId)) {
             System.out.println("WORKING");
