@@ -51,11 +51,11 @@
         <appender-ref ref="RollingFile" />
     </logger>
 
-<!--    <logger name="org.hibernate.type" additivity="false" >
+    <logger name="org.hibernate.type" additivity="false" >
         <level value="TRACE" />
         <appender-ref ref="Console" />
         <appender-ref ref="RollingFile" />
-    </logger>-->
+    </logger>
 
 
 </configuration>
