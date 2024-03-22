@@ -5,7 +5,7 @@ import com.example.demo.config.InternalVariables;
 import com.example.demo.dto.CommentDto;
 import com.example.demo.entity.Comment;
 import com.example.demo.exceptions.ResourceNotFoundException;
-import com.example.demo.repos.CommentRepository;
+import com.example.demo.repos.jpa.CommentRepositoryImpl;
 import com.example.demo.responseDto.ResponseCommentDto;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -21,7 +21,8 @@ import java.util.List;
 public class CommentService {
     private final static int LIST_STARTING_POSITION = 0;
     private final RestTemplate restTemplate;
-    private final CommentRepository commentRepository;
+    //private final CommentRepository commentRepository;
+    private final CommentRepositoryImpl commentRepository;
     private final ExternalValidationClient externalValidationClient;
     private final ModelMapper modelMapper;
     private final InternalVariables properties;
@@ -45,16 +46,17 @@ public class CommentService {
 
     public List<ResponseCommentDto> getCommentsByTopicAuthor(String topicAuthor) {
         List<ResponseCommentDto> listOfResponseCommentDto = commentRepository.findAllCommentsByTopicAuthor(topicAuthor).stream()
-                .map(comment -> modelMapper.map(comment,ResponseCommentDto.class))
+                .map(comment -> modelMapper.map(comment, ResponseCommentDto.class))
                 .toList();
         if (listOfResponseCommentDto.isEmpty()) {
             throw new ResourceNotFoundException("No comments found");
         }
         return listOfResponseCommentDto.size() > properties.getOutputLimit() ? listOfResponseCommentDto.subList(LIST_STARTING_POSITION, properties.getOutputLimit()) : listOfResponseCommentDto;
     }
+
     public List<ResponseCommentDto> getCommentsByTextContaining(String searchRequest) {
         List<ResponseCommentDto> listOfResponseCommentDto = commentRepository.findCommentsByTextContaining(searchRequest).stream()
-                .map(comment -> modelMapper.map(comment,ResponseCommentDto.class))
+                .map(comment -> modelMapper.map(comment, ResponseCommentDto.class))
                 .toList();
         if (listOfResponseCommentDto.isEmpty()) {
             throw new ResourceNotFoundException("No comments with such text found");

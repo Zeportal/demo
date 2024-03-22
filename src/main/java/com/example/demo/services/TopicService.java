@@ -4,10 +4,12 @@ import com.example.demo.config.InternalVariables;
 import com.example.demo.dto.TopicDto;
 import com.example.demo.entity.Topic;
 import com.example.demo.exceptions.ResourceNotFoundException;
-import com.example.demo.repos.TopicRepository;
+import com.example.demo.repos.jpa.TopicRepositoryImpl;
 import com.example.demo.responseDto.ResponseTopicDto;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,7 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TopicService {
     private final static int LIST_STARTING_POSITION = 0;
-    private final TopicRepository topicRepository;
+    private final TopicRepositoryImpl topicRepository;
     private final ModelMapper modelMapper;
     private final InternalVariables properties;
 
@@ -31,9 +33,10 @@ public class TopicService {
         }
         return listOfResponseTopicDto.size() > properties.getOutputLimit() ? listOfResponseTopicDto.subList(LIST_STARTING_POSITION, properties.getOutputLimit()) : listOfResponseTopicDto;
     }
+
     public List<ResponseTopicDto> getTopicsByCommentTextContaining(String searchRequest) {
         List<ResponseTopicDto> listOfResponseTopicDto = topicRepository.findTopicsByCommentTextContaining(searchRequest).stream()
-                .map(topic -> modelMapper.map(topic,ResponseTopicDto.class))
+                .map(topic -> modelMapper.map(topic, ResponseTopicDto.class))
                 .toList();
         if (listOfResponseTopicDto.isEmpty()) {
             throw new ResourceNotFoundException("No topics with such search request found");
@@ -41,6 +44,7 @@ public class TopicService {
         return listOfResponseTopicDto;
     }
 
+    @Cacheable("topic")
     public ResponseTopicDto findById(Long topicId) {
         return topicRepository.findById(topicId)
                 .map(topic -> modelMapper.map(topic, ResponseTopicDto.class))
@@ -52,6 +56,7 @@ public class TopicService {
         return saveAndReturnTopicDto(topicDto);
     }
 
+    @CacheEvict("topic")
     public void deleteTopic(Long topicId) {
         try {
             topicRepository.deleteById(topicId);
@@ -60,6 +65,7 @@ public class TopicService {
         }
     }
 
+    @CacheEvict(value = "topic", key = "#topicId")
     public ResponseTopicDto updateTopic(Long topicId, TopicDto topicDto) {
         return topicRepository.findById(topicId)
                 .map(topic -> updateSaveReturnTopicDto(topicDto, topic))

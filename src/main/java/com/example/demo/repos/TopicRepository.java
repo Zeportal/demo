@@ -11,6 +11,4 @@ import java.util.List;
 
 @Repository
 public interface TopicRepository extends JpaRepository<Topic, Long>, JpaSpecificationExecutor<Topic> {
-    @Query("SELECT DISTINCT t FROM Topic t JOIN t.comments c WHERE c.text LIKE %:searchRequest%")
-    List<Topic> findTopicsByCommentTextContaining(@Param("searchRequest") String searchRequest);
 }
