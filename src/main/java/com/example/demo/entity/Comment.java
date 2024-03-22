@@ -1,16 +1,14 @@
 package com.example.demo.entity;
 
 import lombok.*;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 
 @Entity
+@Data
 @Table(name = "comment", schema = "public")
-@Setter
-@Getter
-@EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
 public class Comment {
@@ -19,11 +17,11 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "commentSeq")
     private Long commentId;
 
-    @NotEmpty
+    @NotBlank
     @Column(nullable = false, length = 70)
     private String author;
 
-    @NotEmpty
+    @NotBlank
     @Column(nullable = false, length = 400)
     private String text;
 
@@ -34,12 +32,13 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name = "topicId")
     @EqualsAndHashCode.Exclude
-    private  Topic topic;
+    @ToString.Exclude
+    private Topic topic;
 
     public Comment(Long commentId, String author, String text, Long topicId) {
-        this.commentId=commentId;
-        this.author=author;
-        this.text=text;
-        this.topicId=topicId;
+        this.commentId = commentId;
+        this.author = author;
+        this.text = text;
+        this.topicId = topicId;
     }
 }

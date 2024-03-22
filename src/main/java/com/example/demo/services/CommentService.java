@@ -1,76 +1,117 @@
 package com.example.demo.services;
 
+import com.example.demo.client.ExternalValidationClient;
+import com.example.demo.config.InternalVariables;
 import com.example.demo.dto.CommentDto;
 import com.example.demo.entity.Comment;
 import com.example.demo.exceptions.ResourceNotFoundException;
-import com.example.demo.repos.CommentRepository;
+import com.example.demo.repos.jpa.CommentRepositoryImpl;
 import com.example.demo.responseDto.ResponseCommentDto;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
+@Transactional
+@RequiredArgsConstructor
 public class CommentService {
-
-    @Autowired
-    private CommentRepository commentRepository;
-
-    @Autowired
-    private ModelMapper modelMapper;
+    private final static int LIST_STARTING_POSITION = 0;
+    private final RestTemplate restTemplate;
+    //private final CommentRepository commentRepository;
+    private final CommentRepositoryImpl commentRepository;
+    private final ExternalValidationClient externalValidationClient;
+    private final ModelMapper modelMapper;
+    private final InternalVariables properties;
 
 
     public List<ResponseCommentDto> getComments(Long topicId) {
         List<ResponseCommentDto> listOfResponseCommentDto = commentRepository.findByTopicId(topicId).stream()
                 .map(comment -> modelMapper.map(comment, ResponseCommentDto.class))
                 .toList();
-        return Optional.of(listOfResponseCommentDto)
-                .filter(list->!list.isEmpty())
-                .map(list->listOfResponseCommentDto)
-                .orElseThrow(()->new ResourceNotFoundException("No comments found"));
+        if (listOfResponseCommentDto.isEmpty()) {
+            throw new ResourceNotFoundException("No comments found");
+        }
+        return listOfResponseCommentDto.size() > properties.getOutputLimit() ? listOfResponseCommentDto.subList(LIST_STARTING_POSITION, properties.getOutputLimit()) : listOfResponseCommentDto;
     }
 
-    public ResponseCommentDto getCommentById(Long commentId){
+    public ResponseCommentDto getCommentById(Long commentId) {
         return commentRepository.findById(commentId)
-                .map(comment -> {
-                    ResponseCommentDto responseCommentDto = modelMapper.map(comment, ResponseCommentDto.class);
-                    return responseCommentDto;
-                })
-                .orElseThrow(()-> new ResourceNotFoundException("Comment with id "+ commentId + " not found"));
+                .map(comment -> modelMapper.map(comment, ResponseCommentDto.class))
+                .orElseThrow(() -> new ResourceNotFoundException("Comment with id " + commentId + " not found"));
     }
 
-    public ResponseEntity<?> saveComment(CommentDto commentDto, Long topicId) {
-        commentDto.setTopicId(topicId);
-        Comment comment=modelMapper.map(commentDto, Comment.class);
-        commentRepository.save(comment);
-        return new ResponseEntity<>("Saved successfully",HttpStatus.CREATED);
+    public List<ResponseCommentDto> getCommentsByTopicAuthor(String topicAuthor) {
+        List<ResponseCommentDto> listOfResponseCommentDto = commentRepository.findAllCommentsByTopicAuthor(topicAuthor).stream()
+                .map(comment -> modelMapper.map(comment, ResponseCommentDto.class))
+                .toList();
+        if (listOfResponseCommentDto.isEmpty()) {
+            throw new ResourceNotFoundException("No comments found");
+        }
+        return listOfResponseCommentDto.size() > properties.getOutputLimit() ? listOfResponseCommentDto.subList(LIST_STARTING_POSITION, properties.getOutputLimit()) : listOfResponseCommentDto;
     }
 
-    public ResponseEntity<?> deleteComment(Long commentId){
-        try{
+    public List<ResponseCommentDto> getCommentsByTextContaining(String searchRequest) {
+        List<ResponseCommentDto> listOfResponseCommentDto = commentRepository.findCommentsByTextContaining(searchRequest).stream()
+                .map(comment -> modelMapper.map(comment, ResponseCommentDto.class))
+                .toList();
+        if (listOfResponseCommentDto.isEmpty()) {
+            throw new ResourceNotFoundException("No comments with such text found");
+        }
+        return listOfResponseCommentDto;
+    }
+
+    public ResponseCommentDto saveComment(CommentDto commentDto, Long topicId) {
+        if (externalValidationClient.validateComment(commentDto.getText(), commentDto.getAuthor(), topicId)) {
+            System.out.println("WORKING");
+        }
+        final String externalServiceUrl = "http://localhost:8090/topic/";
+        String text = commentDto.getText();
+        String author = commentDto.getAuthor();
+        String url = externalServiceUrl + topicId + "?text=" + text + "&author=" + author;
+        if (restTemplate.getForObject(url, Boolean.class)) {
+            System.out.println("REST WORKING");
+        }
+        return SaveCommentReturnCommentDto(topicId, commentDto);
+    }
+
+
+    public void deleteComment(Long commentId) {
+        try {
             commentRepository.deleteById(commentId);
-            return new ResponseEntity<>("Deleted successfully",HttpStatus.OK);
-        } catch (Exception ex){
-            return new ResponseEntity<>("Data not found", HttpStatus.NOT_FOUND);
+        } catch (Exception ex) {
+            throw new ResourceNotFoundException("Comment with id " + commentId + " not found");
         }
     }
 
-    public ResponseCommentDto updateComment(Long commentId, CommentDto commentDto){
+    public ResponseCommentDto updateComment(Long commentId, CommentDto commentDto) {
         return commentRepository.findById(commentId)
-                .map(comment -> {
-                    comment.setAuthor(commentDto.getAuthor());
-                    comment.setText(commentDto.getText());
-                    commentRepository.save(comment);
-                    ResponseCommentDto responseCommentDto = modelMapper.map(comment, ResponseCommentDto.class);
-                    return responseCommentDto;
-                })
-                .orElseThrow(()->new ResourceNotFoundException("Comment with id "+ commentId + " not found"));
+                .map(comment -> checkComment(commentDto, comment))
+                .orElseThrow(() -> new ResourceNotFoundException("Comment with id " + commentId + " not found"));
+    }
+
+    private ResponseCommentDto checkComment(CommentDto commentDto, Comment comment) {
+        if (externalValidationClient.validateComment(commentDto.getText(), commentDto.getAuthor(), comment.getTopicId())) {
+            System.out.println("WORKING");
+        }
+        return UpdateCommentDto(commentDto, comment);
+    }
+
+    private ResponseCommentDto UpdateCommentDto(CommentDto commentDto, Comment comment) {
+        comment.setAuthor(commentDto.getAuthor());
+        comment.setText(commentDto.getText());
+        commentRepository.save(comment);
+        return modelMapper.map(comment, ResponseCommentDto.class);
+    }
+
+    private ResponseCommentDto SaveCommentReturnCommentDto(Long topicId, CommentDto dto) {
+        dto.setTopicId(topicId);
+        Comment comment = modelMapper.map(dto, Comment.class);
+        commentRepository.save(comment);
+        return modelMapper.map(comment, ResponseCommentDto.class);
     }
 
 }

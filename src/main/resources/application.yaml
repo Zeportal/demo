@@ -3,6 +3,11 @@ spring:
     url: jdbc:postgresql://localhost:5432/blog
     username: postgres
     password: admin
+  data:
+    mongodb:
+      host: localhost
+      port: 9092
+      database: mongodb
   jpa:
     properties:
       hibernate:
@@ -12,9 +17,11 @@ spring:
   liquibase:
     enabled: true
     change-log: classpath:db/changelog/changelog.yaml
-  liquibase.change-log: classpath:db/changelog/changelog.yaml
   logging:
     file:
       path: logs
 server:
   port: 8080
+
+constraints:
+  outputLimit: 5
